@@ -1,0 +1,24 @@
+{
+  "name": "react-docgen-ts",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PengJiyuan/react-docgen-ts.git"
+  },
+  "keywords": [
+    "docgen",
+    "react",
+    "typescript"
+  ],
+  "author": "PengJiyuan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PengJiyuan/react-docgen-ts/issues"
+  },
+  "homepage": "https://github.com/PengJiyuan/react-docgen-ts#readme"
+}
