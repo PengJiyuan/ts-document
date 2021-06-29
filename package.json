@@ -2,7 +2,7 @@
   "name": "react-docgen-ts",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "tsc": "tsc",
     "tsc:watch": "tsc -w"
