@@ -2,11 +2,6 @@ import generate from './generate';
 import { defaultMarkdownSchema, defaultLang } from './default';
 import { GenerateMarkdownConfig } from './interface';
 
-const remarkMap = {
-  zh: 'remarkZh',
-  en: 'remarkEn',
-};
-
 function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record<string, string> | undefined {
   const lang = config?.lang || defaultLang;
   const markdownSchema = defaultMarkdownSchema[lang];
@@ -34,7 +29,7 @@ function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record
 
     const tags = schemas[name].tags;
 
-    const langTag = tags.find((tag) => tag.name === remarkMap[lang]);
+    const langTag = tags.find((tag) => tag.name === lang);
 
     if (tags.length && langTag) {
       markdownHeader = `${langTag.value}\n\n${markdownHeader}`;

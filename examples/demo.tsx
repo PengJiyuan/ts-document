@@ -3,11 +3,11 @@ import { ReactNode } from "react";
 /**
  * Alert
  *
- * @remarkZh
+ * @zh
  *
  * 向用户显示警告的信息时，通过警告提示，展现需要关注的信息。
  *
- * @remarkEn
+ * @en
  *
  * Display warning information to the user. the Alert is used to display the information that needs attention.
  */
