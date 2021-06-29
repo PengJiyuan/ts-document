@@ -57,3 +57,5 @@ export const defaultMarkdownSchema = {
 };
 
 export const defaultLang = 'en';
+
+export const defaultSourceFilesPaths = ['**/*.ts', '**/*.tsx'];

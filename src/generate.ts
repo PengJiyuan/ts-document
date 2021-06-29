@@ -1,11 +1,11 @@
 import { Project, PropertySignature } from "ts-morph";
 import { SchemaType, GenerateConfig, defaultTypeMapT } from './interface';
-import { defaultTypeMap } from './default';
+import { defaultTypeMap, defaultSourceFilesPaths } from './default';
 
 const project = new Project();
 
 function generate(file: string, config?: GenerateConfig): Record<string, SchemaType[]> {
-  project.addSourceFilesAtPaths(['**/*.ts', '**/*.tsx']);
+  project.addSourceFilesAtPaths(config?.sourceFilesPaths || defaultSourceFilesPaths);
 
   const sourceFile = project.getSourceFile(file);
 
