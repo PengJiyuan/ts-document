@@ -2,14 +2,18 @@ import generate from './generate';
 import { defaultMarkdownSchema, defaultLang } from './default';
 import { GenerateMarkdownConfig } from './interface';
 
+const remarkMap = {
+  zh: 'remarkZh',
+  en: 'remarkEn',
+};
+
 function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record<string, string> | undefined {
-  const markdownSchema = defaultMarkdownSchema[config?.lang || defaultLang];
+  const lang = config?.lang || defaultLang;
+  const markdownSchema = defaultMarkdownSchema[lang];
 
   if (!markdownSchema) {
     return;
   }
-
-  const length = markdownSchema.length;
 
   let markdownHeader: string = `|${markdownSchema.map((md) => md.title).join('|')}|`;
 
@@ -24,9 +28,19 @@ function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record
   }
 
   function getOutputMarkdown(name: string) {
-    const markdownContent = schemas[name].map((schema) => {
+    const markdownContent = schemas[name].data.map((schema) => {
       return getSingleLineMarkdown(schema);
     }).join('\n');
+
+    const tags = schemas[name].tags;
+
+    const langTag = tags.find((tag) => tag.name === remarkMap[lang]);
+
+    if (tags.length && langTag) {
+      markdownHeader = `${langTag.value}\n\n${markdownHeader}`;
+    }
+
+    markdownHeader = `### ${name}\n\n${markdownHeader}`;
 
     return `${markdownHeader}${markdownContent}`;
   }

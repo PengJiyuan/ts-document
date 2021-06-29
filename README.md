@@ -16,14 +16,23 @@ generate(xxxx, config);
 generateMarkdown(xxx, config);
 ```
 
-### Demo ts
+### interface.ts
 
 ```ts
-// interface.ts
+import { ReactNode } from "react";
+
 /**
- * A
+ * Alert
+ *
+ * @remarkZh
+ *
+ * 向用户显示警告的信息时，通过警告提示，展现需要关注的信息。
+ *
+ * @remarkEn
+ *
+ * Display warning information to the user. the Alert is used to display the information that needs attention.
  */
-export interface AProps {
+export interface AlertProps {
   /**
    * @zh 自定义操作项
    * @en this is action
@@ -35,22 +44,20 @@ export interface AProps {
    * @en Whether Alert can be closed
    * @defaultValue false
    */
-  closable?: boolean;
+  closable?: InnerProps;
 }
 
-export interface BProps {
+interface InnerProps {
   /**
-   * @zh 方向
-   * @en direction
-   * @defaultValue 'horizontal'
+   * @zh 位置
+   * @en position
    */
-  direction?: "horizontal" | "vertical";
+  position?: string;
   /**
    * @zh 尺寸
    * @en Size
-   * @defaultValue small
    */
-  size?: "small" | "large";
+  size?: string;
 }
 ```
 
@@ -66,86 +73,93 @@ output
 
 ```json
 {
-  "A": [
-    {
-      "name": "action",
-      "type": "ReactNode",
-      "description": "",
-      "tags": [
-        {
-          "name": "zh",
-          "value": "自定义操作项"
-        },
-        {
-          "name": "en",
-          "value": "this is action"
-        },
-        {
-          "name": "version",
-          "value": "2.15.0"
-        }
-      ]
-    },
-    {
-      "name": "closable",
-      "type": "boolean",
-      "description": "",
-      "tags": [
-        {
-          "name": "zh",
-          "value": "是否可以关闭"
-        },
-        {
-          "name": "en",
-          "value": "Whether Alert can be closed"
-        },
-        {
-          "name": "defaultValue",
-          "value": "false"
-        }
-      ]
-    }
-  ],
-  "BProps": [
-    {
-      "name": "direction",
-      "type": "\"horizontal\" | \"vertical\"",
-      "description": "",
-      "tags": [
-        {
-          "name": "zh",
-          "value": "方向"
-        },
-        {
-          "name": "en",
-          "value": "direction"
-        },
-        {
-          "name": "defaultValue",
-          "value": "'horizontal'"
-        }
-      ]
-    },
-    {
-      "name": "size",
-      "type": "\"small\" | \"large\"",
-      "description": "",
-      "tags": [
-        {
-          "name": "zh",
-          "value": "尺寸"
-        },
-        {
-          "name": "en",
-          "value": "Size"
-        },
-        {
-          "name": "defaultValue",
-          "value": "small"
-        }
-      ]
-    }
-  ]
+  "Alert": {
+    "data": [
+      {
+        "name": "action",
+        "type": "ReactNode",
+        "description": "",
+        "tags": [
+          {
+            "name": "zh",
+            "value": "自定义操作项"
+          },
+          {
+            "name": "en",
+            "value": "this is action"
+          },
+          {
+            "name": "version",
+            "value": "2.15.0"
+          }
+        ]
+      },
+      {
+        "name": "closable",
+        "type": "InnerProps",
+        "description": "",
+        "tags": [
+          {
+            "name": "zh",
+            "value": "是否可以关闭"
+          },
+          {
+            "name": "en",
+            "value": "Whether Alert can be closed"
+          },
+          {
+            "name": "defaultValue",
+            "value": "false"
+          }
+        ]
+      }
+    ],
+    "tags": [
+      {
+        "name": "remarkZh",
+        "value": "向用户显示警告的信息时，通过警告提示，展现需要关注的信息。"
+      },
+      {
+        "name": "remarkEn",
+        "value": "Display warning information to the user. the Alert is used to display the information that needs attention."
+      }
+    ]
+  },
+  "InnerProps": {
+    "data": [
+      {
+        "name": "position",
+        "type": "string",
+        "description": "",
+        "tags": [
+          {
+            "name": "zh",
+            "value": "位置"
+          },
+          {
+            "name": "en",
+            "value": "position"
+          }
+        ]
+      },
+      {
+        "name": "size",
+        "type": "string",
+        "description": "",
+        "tags": [
+          {
+            "name": "zh",
+            "value": "尺寸"
+          },
+          {
+            "name": "en",
+            "value": "Size"
+          }
+        ]
+      }
+    ],
+    "tags": []
+  }
 }
 ```
 
@@ -161,8 +175,8 @@ output
 
 ```json
 {
-  "A": "|Property|Description|Type|DefaultValue|Version|\n|---|---|---|---|---|\n|action|this is action|ReactNode|-|2.15.0|\n|closable|Whether Alert can be closed|boolean|false|-|",
-  "BProps": "|Property|Description|Type|DefaultValue|Version|\n|---|---|---|---|---|\n|direction|direction|\"horizontal\" | \"vertical\"|'horizontal'|-|\n|size|Size|\"small\" | \"large\"|small|-|"
+  "Alert": "### Alert\n\nDisplay warning information to the user. the Alert is used to display the information that needs attention.\n\n|Property|Description|Type|DefaultValue|Version|\n|---|---|---|---|---|\n|action|this is action|ReactNode|-|2.15.0|\n|closable|Whether Alert can be closed|InnerProps|false|-|",
+  "InnerProps": "### InnerProps\n\n### Alert\n\nDisplay warning information to the user. the Alert is used to display the information that needs attention.\n\n|Property|Description|Type|DefaultValue|Version|\n|---|---|---|---|---|\n|position|position|string|-|-|\n|size|Size|string|-|-|"
 }
 ```
 

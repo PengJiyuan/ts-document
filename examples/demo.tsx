@@ -1,11 +1,17 @@
-import { ReactNode, CSSProperties } from "react";
+import { ReactNode } from "react";
 
 /**
  * Alert
+ *
+ * @remarkZh
+ *
+ * 向用户显示警告的信息时，通过警告提示，展现需要关注的信息。
+ *
+ * @remarkEn
+ *
+ * Display warning information to the user. the Alert is used to display the information that needs attention.
  */
 export interface AlertProps {
-  style?: CSSProperties;
-  className?: string | string[];
   /**
    * @zh 自定义操作项
    * @en this is action
@@ -17,53 +23,7 @@ export interface AlertProps {
    * @en Whether Alert can be closed
    * @defaultValue false
    */
-  closable?: boolean;
-  /**
-   * @zh 关闭的回调
-   * @en Callback when Alert is closed
-   */
-  onClose?: (e) => void;
-  /**
-   * @zh 关闭动画结束后执行的回调
-   * @en Callback when Alert close animation completed
-   */
-  afterClose?: () => void;
-  /**
-   * @zh 警告的类型
-   * @en Type of Alert
-   */
-  type?: "info" | "success" | "warning" | "error";
-  /**
-   * @zh 标题
-   * @en Title of Alert
-   */
-  title?: string;
-  /**
-   * @zh 内容
-   * @en Content of Alert
-   */
-  content: ReactNode;
-  /**
-   * @zh 可以指定自定义图标，`showIcon` 为 `true` 时生效。
-   * @en Custom icon, effective when `showIcon` is `true`
-   */
-  icon?: ReactNode;
-  /**
-   * @zh 自定义关闭按钮
-   * @en Custom close button Element
-   */
-  closeElement?: ReactNode;
-  /**
-   * @zh 是否显示图标
-   * @en Whether to show icon
-   */
-  showIcon?: InnerProps;
-  /**
-   * @zh 是否用作顶部公告
-   * @en Whether to show as banner
-   */
-  banner?: boolean;
-  children?: ReactNode;
+  closable?: InnerProps;
 }
 
 interface InnerProps {
@@ -78,14 +38,3 @@ interface InnerProps {
    */
   size?: string;
 }
-
-function Alert(props: AlertProps) {
-  return <div>{props.children}</div>;
-}
-
-Alert.defaultProps = {
-  showIcon: true,
-  type: "info",
-};
-
-export default Alert;

@@ -1,10 +1,12 @@
 import { Project, PropertySignature } from "ts-morph";
-import { SchemaType, GenerateConfig, defaultTypeMapT } from './interface';
+import { SchemaType, GenerateConfig, defaultTypeMapT, TagType } from './interface';
 import { defaultTypeMap, defaultSourceFilesPaths } from './default';
 
 const project = new Project();
 
-function generate(file: string, config?: GenerateConfig): Record<string, SchemaType[]> {
+type generateReturnType = Record<string, { data: SchemaType[], tags: TagType[] }>;
+
+function generate(file: string, config?: GenerateConfig): generateReturnType {
   project.addSourceFilesAtPaths(config?.sourceFilesPaths || defaultSourceFilesPaths);
 
   const sourceFile = project.getSourceFile(file);
@@ -20,9 +22,19 @@ function generate(file: string, config?: GenerateConfig): Record<string, SchemaT
     const jsDoc = node.getJsDocs()[0];
     const name = String(jsDoc?.getCommentText() || node.getName());
 
+    const tags = jsDoc?.getTags() || [];
+
     const schema = getSchema(properties, defaultT);
 
-    schemas[name] = schema;
+    schemas[name] = {
+      data: schema,
+      tags: tags.map((tag) => {
+        return {
+          name: tag.getTagName(),
+          value: tag.getCommentText(),
+        };
+      }),
+    };
   });
 
   return schemas;
