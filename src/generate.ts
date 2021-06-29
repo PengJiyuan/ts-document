@@ -18,7 +18,12 @@ function generate(file: string, config?: GenerateConfig): generateReturnType {
   const defaultT =  config?.defaultTypeMap || defaultTypeMap;
 
   interfaces.forEach((node) => {
-    const properties = node.getProperties();
+    const properties = node.getProperties() || [];
+
+    if (!properties.length) {
+      return;
+    }
+
     const jsDoc = node.getJsDocs()[0];
     const name = String(jsDoc?.getCommentText() || node.getName());
 
