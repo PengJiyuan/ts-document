@@ -4,6 +4,7 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
+    "prepublish": "npm run tsc",
     "tsc": "tsc",
     "tsc:watch": "tsc -w"
   },
