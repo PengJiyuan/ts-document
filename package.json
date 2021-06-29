@@ -1,11 +1,11 @@
 {
   "name": "ts-document",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "npm run tsc",
-    "tsc": "tsc",
+    "tsc": "rm -rf lib/ && tsc",
     "tsc:watch": "tsc -w"
   },
   "repository": {
