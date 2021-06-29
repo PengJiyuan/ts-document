@@ -1,6 +1,6 @@
 # ts-document
 
-Auto generate ts document schema by ts interface.
+Auto generate ts document schema by ts interface conform to the [TSDoc](https://tsdoc.org/).
 
 ## Usage
 
