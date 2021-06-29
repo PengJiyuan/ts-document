@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PengJiyuan/react-docgen-ts.git"
+    "url": "git+https://github.com/PengJiyuan/ts-document.git"
   },
   "keywords": [
     "docgen",
@@ -19,9 +19,9 @@
   "author": "PengJiyuan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/PengJiyuan/react-docgen-ts/issues"
+    "url": "https://github.com/PengJiyuan/ts-document/issues"
   },
-  "homepage": "https://github.com/PengJiyuan/react-docgen-ts#readme",
+  "homepage": "https://github.com/PengJiyuan/ts-document#readme",
   "peerDependencies": {
     "typescript": ">= 4.3.x"
   },
