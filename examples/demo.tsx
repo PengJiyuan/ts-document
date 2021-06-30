@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 /**
- * Alert
+ * @title Alert
  *
  * @zh
  *

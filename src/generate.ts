@@ -25,9 +25,13 @@ function generate(file: string, config?: GenerateConfig): generateReturnType {
     }
 
     const jsDoc = node.getJsDocs()[0];
-    const name = String(jsDoc?.getCommentText() || node.getName());
-
     const tags = jsDoc?.getTags() || [];
+
+    const name = tags.find((tag) => tag.getTagName() === 'title')?.getComment() as string;
+
+    if (!name) {
+      return;
+    }
 
     const schema = getSchema(properties, defaultT);
 

@@ -22,7 +22,7 @@ generateMarkdown(xxx, config);
 import { ReactNode } from "react";
 
 /**
- * Alert
+ * @title Alert
  *
  * @zh
  *
@@ -124,41 +124,6 @@ output
         "value": "Display warning information to the user. the Alert is used to display the information that needs attention."
       }
     ]
-  },
-  "InnerProps": {
-    "data": [
-      {
-        "name": "position",
-        "type": "string",
-        "description": "",
-        "tags": [
-          {
-            "name": "zh",
-            "value": "位置"
-          },
-          {
-            "name": "en",
-            "value": "position"
-          }
-        ]
-      },
-      {
-        "name": "size",
-        "type": "string",
-        "description": "",
-        "tags": [
-          {
-            "name": "zh",
-            "value": "尺寸"
-          },
-          {
-            "name": "en",
-            "value": "Size"
-          }
-        ]
-      }
-    ],
-    "tags": []
   }
 }
 ```
@@ -175,8 +140,7 @@ output
 
 ```json
 {
-  "Alert": "### Alert\n\nDisplay warning information to the user. the Alert is used to display the information that needs attention.\n\n|Property|Description|Type|DefaultValue|Version|\n|---|---|---|---|---|\n|action|this is action|ReactNode|-|2.15.0|\n|closable|Whether Alert can be closed|InnerProps|false|-|",
-  "InnerProps": "### InnerProps\n\n### Alert\n\nDisplay warning information to the user. the Alert is used to display the information that needs attention.\n\n|Property|Description|Type|DefaultValue|Version|\n|---|---|---|---|---|\n|position|position|string|-|-|\n|size|Size|string|-|-|"
+  "Alert": "### Alert\n\nDisplay warning information to the user. the Alert is used to display the information that needs attention.\n\n|Property|Description|Type|DefaultValue|Version|\n|---|---|---|---|---|\n|action|this is action|ReactNode|-|2.15.0|\n|closable|Whether Alert can be closed|InnerProps|false|-|"
 }
 ```
 

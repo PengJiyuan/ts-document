@@ -2,6 +2,10 @@ import generate from './generate';
 import { defaultMarkdownSchema, defaultLang } from './default';
 import { GenerateMarkdownConfig } from './interface';
 
+function toSingleLine(str: string) : string {
+  return str.replace(/[\r\n\t]+/g, '').replace(/[\x20]{2,}/g, '').replace(/\|/g, '\\|');
+}
+
 function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record<string, string> | undefined {
   const lang = config?.lang || defaultLang;
   const markdownSchema = defaultMarkdownSchema[lang];
@@ -31,13 +35,15 @@ function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record
 
     const langTag = tags.find((tag) => tag.name === lang);
 
+    let mh = markdownHeader;
+
     if (tags.length && langTag) {
-      markdownHeader = `${langTag.value}\n\n${markdownHeader}`;
+      mh = `${langTag.value}\n\n${mh}`;
     }
 
-    markdownHeader = `### ${name}\n\n${markdownHeader}`;
+    mh = `### ${name}\n\n${mh}`;
 
-    return `${markdownHeader}${markdownContent}`;
+    return `${mh}${markdownContent}`;
   }
 
   function getSingleLineMarkdown(schema) {
@@ -48,9 +54,13 @@ function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record
       if (execResult) {
         field = execResult[1];
         const obj = schema.tags.find((tag) => tag.name === field);
-        return obj ? obj.value : '-';
+        const value = obj ? toSingleLine(obj.value) : '-';
+
+        return field === 'defaultValue' ? `\`${value}\`` : value;
       }
-      return schema[field];
+
+      const value = toSingleLine(schema[field]);
+      return field === 'type' ? `\`${value}\`` : value;
     }).join('|');
 
     return `|${singleLineMarkdown}|`;
