@@ -1,17 +1,15 @@
 import { ReactNode } from "react";
+import { AProps } from "./a";
 
 /**
  * @title Alert
- *
  * @zh
- *
  * 向用户显示警告的信息时，通过警告提示，展现需要关注的信息。
- *
  * @en
- *
  * Display warning information to the user. the Alert is used to display the information that needs attention.
  */
-export interface AlertProps {
+export interface AlertProps extends AProps {
+  style: object;
   /**
    * @zh 自定义操作项
    * @en this is action

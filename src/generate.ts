@@ -1,13 +1,17 @@
-import { Project, PropertySignature } from "ts-morph";
+import { Project, PropertySignatureStructure, OptionalKind } from "ts-morph";
 import { SchemaType, GenerateConfig, defaultTypeMapT, TagType } from './interface';
-import { defaultTypeMap, defaultSourceFilesPaths } from './default';
-
-const project = new Project();
+import { defaultTypeMap } from './default';
 
 type generateReturnType = Record<string, { data: SchemaType[], tags: TagType[] }>;
 
 function generate(file: string, config?: GenerateConfig): generateReturnType {
-  project.addSourceFilesAtPaths(config?.sourceFilesPaths || defaultSourceFilesPaths);
+  const project = new Project({
+    tsConfigFilePath: config?.tsConfigFilePath,
+  });
+
+  if (config?.sourceFilesPaths) {
+    project.addSourceFilesAtPaths(config?.sourceFilesPaths);
+  }
 
   const sourceFile = project.getSourceFile(file);
 
@@ -18,14 +22,14 @@ function generate(file: string, config?: GenerateConfig): generateReturnType {
   const defaultT =  config?.defaultTypeMap || defaultTypeMap;
 
   interfaces.forEach((node) => {
-    const properties = node.getProperties() || [];
+    const structure = node.getStructure();
+    const properties = structure.properties;
 
-    if (!properties.length) {
+    if (!properties?.length) {
       return;
     }
 
-    const jsDoc = node.getJsDocs()[0];
-    const tags = jsDoc?.getTags() || [];
+    const tags = node.getJsDocs()[0]?.getTags() || [];
 
     const name = tags.find((tag) => tag.getTagName() === 'title')?.getComment() as string;
 
@@ -49,35 +53,32 @@ function generate(file: string, config?: GenerateConfig): generateReturnType {
   return schemas;
 }
 
-function getSchema(properties: PropertySignature[], defaultTypeMap: defaultTypeMapT): SchemaType[] {
+function getSchema(properties: OptionalKind<PropertySignatureStructure>[], defaultTypeMap: defaultTypeMapT): SchemaType[] {
   return properties.map((p) => {
-    const name = p.getName();
-    const type = p.getTypeNode();
-    const typeString = type?.print();
-    const jsDoc = p.getJsDocs()[0];
-
+    const jsDoc = p.docs?.[0];
     if (!jsDoc) {
-      if (defaultTypeMap[name]) {
+      if (defaultTypeMap[p.name]) {
         return {
-          name,
-          ...defaultTypeMap[name],
+          name: p.name,
+          hasQuestionToken: p.hasQuestionToken,
+          ...defaultTypeMap[p.name],
         };
       }
       return;
     }
 
-    const tags = jsDoc.getTags();
+    const tags = (jsDoc as any).tags;
     const processedTags = tags.map((tag) => {
       return {
-        name: tag.getTagName(),
-        value: tag.getCommentText(),
+        name: tag.tagName,
+        value: tag.text,
       };
     });
 
     return {
-      name,
-      type: typeString,
-      description: jsDoc.getDescription(),
+      name: p.name,
+      type: p.type as string,
+      hasQuestionToken: p.hasQuestionToken,
       tags: processedTags,
     }
   }).filter((a) => a);

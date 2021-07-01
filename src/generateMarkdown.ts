@@ -47,7 +47,9 @@ function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record
   }
 
   function getSingleLineMarkdown(schema) {
-    const singleLineMarkdown =  markdownSchema.map((ms) => {
+    const requiredTextWord = lang === 'zh' ? '必填' : 'Required';
+    const requiredText = !schema.hasQuestionToken ? ` **(${requiredTextWord})**` : '';
+    const singleLineMarkdown = markdownSchema.map((ms) => {
       let field = ms.value;
       const execResult = /tag\.(\w+)/.exec(field);
       // tags
@@ -60,7 +62,8 @@ function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record
       }
 
       const value = toSingleLine(schema[field]);
-      return field === 'type' ? `\`${value}\`` : value;
+
+      return field === 'type' ? `\`${value}\`${requiredText}` : value;
     }).join('|');
 
     return `|${singleLineMarkdown}|`;
