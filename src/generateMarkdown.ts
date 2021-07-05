@@ -2,7 +2,7 @@ import generate from './generate';
 import { defaultMarkdownSchema, defaultLang } from './default';
 import { GenerateMarkdownConfig } from './interface';
 
-function toSingleLine(str: string) : string {
+function toSingleLine(str: string): string {
   return str.replace(/[\r\n\t]+/g, '').replace(/[\x20]{2,}/g, '').replace(/\|/g, '\\|');
 }
 
@@ -20,6 +20,10 @@ function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record
 
   const schemas = generate(file, config);
 
+  if (!schemas) {
+    return;
+  }
+
   const markdownOutput: Record<string, string> = {};
 
   for (let name in schemas) {
@@ -27,17 +31,17 @@ function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record
   }
 
   function getOutputMarkdown(name: string) {
-    const markdownContent = schemas[name].data.map((schema) => {
+    const markdownContent = schemas?.[name].data.map((schema) => {
       return getSingleLineMarkdown(schema);
     }).join('\n');
 
-    const tags = schemas[name].tags;
+    const tags = schemas?.[name].tags;
 
-    const langTag = tags.find((tag) => tag.name === lang);
+    const langTag = tags?.find((tag) => tag.name === lang);
 
     let mh = markdownHeader;
 
-    if (tags.length && langTag) {
+    if (tags?.length && langTag) {
       mh = `${langTag.value}\n\n${mh}`;
     }
 

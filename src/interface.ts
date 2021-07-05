@@ -14,8 +14,7 @@ export type defaultTypeMapT = Record<string, { type: string, tags?: TagType[] }>
 
 export type GenerateConfig = {
   defaultTypeMap?: defaultTypeMapT;
-  sourceFilesPaths?: string | string[];
-  tsConfigFilePath?: string;
+  sourceFilesPaths: string | string[];
 }
 
 export type GenerateMarkdownConfig = GenerateConfig & {

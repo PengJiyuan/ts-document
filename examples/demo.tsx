@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { AProps } from "./a";
+import { AProps, CProps as DProps } from "./a";
 
 /**
  * @title Alert
@@ -8,8 +8,8 @@ import { AProps } from "./a";
  * @en
  * Display warning information to the user. the Alert is used to display the information that needs attention.
  */
-export interface AlertProps extends AProps {
-  style: object;
+export interface AlertProps extends Omit<Pick<AProps, 'animation'>, "disabled"> {
+  style: string;
   /**
    * @zh 自定义操作项
    * @en this is action
@@ -24,7 +24,7 @@ export interface AlertProps extends AProps {
   closable?: InnerProps;
 }
 
-interface InnerProps {
+interface InnerProps extends AProps {
   /**
    * @zh 位置
    * @en position

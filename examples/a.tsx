@@ -14,3 +14,11 @@ export interface AProps extends BProps {
    */
   animation?: boolean;
 }
+
+export interface CProps {
+  /**
+   * @zh BB
+   * @en bb
+   */
+  bb?: boolean;
+}
