@@ -1,4 +1,4 @@
-import { Project, PropertySignatureStructure, OptionalKind, SourceFile, TypeChecker, Symbol } from "ts-morph";
+import { Project, SourceFile, TypeChecker, Symbol } from "ts-morph";
 import { SchemaType, GenerateConfig, defaultTypeMapT, TagType } from './interface';
 import { defaultTypeMap } from './default';
 
@@ -38,7 +38,7 @@ function getSchemaFromSymbol(sym: Symbol, defaultT: defaultTypeMapT) {
   };
 }
 
-function generateSchema(sourceFile: SourceFile, project: Project, typeChecker: TypeChecker, config?: GenerateConfig) {
+function generateSchema(sourceFile: SourceFile, typeChecker: TypeChecker, config?: GenerateConfig) {
   const interfaces = sourceFile?.getInterfaces() || [];
   const schemas = {};
 
@@ -84,7 +84,7 @@ function generate(file: string, config?: GenerateConfig): generateReturnType | u
     return;
   }
 
-  return generateSchema(sourceFile, project, typeChecker, config);
+  return generateSchema(sourceFile, typeChecker, config);
 }
 
 export default generate;
