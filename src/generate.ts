@@ -51,7 +51,7 @@ function generateSchema(sourceFile: SourceFile, typeChecker: TypeChecker, config
 
     const tags = node.getJsDocs()[0]?.getTags() || [];
 
-    let name = tags.find((tag) => tag.getTagName() === 'title')?.getComment() as string;
+    const name = tags.find((tag) => tag.getTagName() === 'title')?.getComment() as string;
 
     if (!name) {
       return;

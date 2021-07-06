@@ -14,9 +14,9 @@ function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record
     return;
   }
 
-  let markdownHeader: string = `|${markdownSchema.map((md) => md.title).join('|')}|`;
+  let markdownHeader = `|${markdownSchema.map((md) => md.title).join('|')}|`;
 
-  markdownHeader += `\n|${markdownSchema.map((_) => '---').join('|')}|\n`;
+  markdownHeader += `\n|${markdownSchema.map(() => '---').join('|')}|\n`;
 
   const schemas = generate(file, config);
 
@@ -26,7 +26,7 @@ function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record
 
   const markdownOutput: Record<string, string> = {};
 
-  for (let name in schemas) {
+  for (const name in schemas) {
     markdownOutput[name] = getOutputMarkdown(name);
   }
 
