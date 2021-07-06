@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
 import { AProps, CProps as DProps } from "./a";
 
+type ExtendType = Pick<Pick<AProps & DProps, 'bb' | 'animation'>, 'animation' | 'bb'>;
+
 /**
  * @title Alert
  * @zh
@@ -8,14 +10,17 @@ import { AProps, CProps as DProps } from "./a";
  * @en
  * Display warning information to the user. the Alert is used to display the information that needs attention.
  */
-export interface AlertProps extends Omit<Pick<AProps, 'animation'>, "disabled"> {
+export interface AlertProps extends ExtendType {
   style: string;
   /**
    * @zh 自定义操作项
    * @en this is action
    * @version 2.15.0
    */
-  action?: ReactNode;
+  action?: {
+    a: string;
+    b: boolean;
+  };
   /**
    * @zh 是否可以关闭
    * @en Whether Alert can be closed

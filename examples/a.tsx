@@ -12,7 +12,7 @@ export interface AProps extends BProps {
    * @zh 动画
    * @en animation
    */
-  animation?: boolean;
+  animation?: boolean | string;
 }
 
 export interface CProps {
