@@ -6,7 +6,7 @@ export type TagType = {
 export type SchemaType = {
   name?: string;
   type?: string;
-  hasQuestionToken?: boolean;
+  // hasQuestionToken?: boolean;
   tags?: TagType[];
 } | undefined;
 
