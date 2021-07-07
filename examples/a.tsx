@@ -22,3 +22,8 @@ export interface CProps {
    */
   bb?: boolean;
 }
+
+export type Option = {
+  a: string;
+  b: string;
+};

@@ -1,5 +1,9 @@
-import { Project, SourceFile, TypeChecker, Symbol } from "ts-morph";
-import { SchemaType, GenerateConfig, defaultTypeMapT, TagType } from './interface';
+import {
+  Project, SourceFile, TypeChecker, Symbol,
+} from 'ts-morph';
+import {
+  SchemaType, GenerateConfig, defaultTypeMapT, TagType,
+} from './interface';
 import { defaultTypeMap } from './default';
 
 type generateReturnType = Record<string, { data: SchemaType[], tags: TagType[] }>;
@@ -25,12 +29,11 @@ function getSchemaFromSymbol(sym: Symbol, defaultT: defaultTypeMapT) {
     }
   }
 
-  const tags = jsDocTags.map((t) => {
-    return {
-      name: t.getName(),
-      value: t.getText()[0].text,
-    }
-  });
+  const tags = jsDocTags.map((t) => ({
+    name: t.getName(),
+    value: t.getText()[0].text,
+  }));
+
   return {
     name,
     type: typeString,
@@ -59,12 +62,10 @@ function generateSchema(sourceFile: SourceFile, typeChecker: TypeChecker, config
 
     schemas[name] = {
       data: schema,
-      tags: tags.map((tag) => {
-        return {
-          name: tag.getTagName(),
-          value: tag.getCommentText(),
-        };
-      }),
+      tags: tags.map((tag) => ({
+        name: tag.getTagName(),
+        value: tag.getCommentText(),
+      })),
     };
   });
 

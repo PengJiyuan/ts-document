@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { AProps, CProps as DProps } from "./a";
+import { AProps, CProps as DProps, Option } from "./a";
 
 type ExtendType = Pick<Pick<AProps & DProps, 'bb' | 'animation'>, 'animation' | 'bb'>;
 
@@ -11,7 +11,7 @@ type ExtendType = Pick<Pick<AProps & DProps, 'bb' | 'animation'>, 'animation' | 
  * Display warning information to the user. the Alert is used to display the information that needs attention.
  */
 export interface AlertProps extends ExtendType {
-  style: string;
+  children: ReactNode;
   /**
    * @zh 自定义操作项
    * @en this is action
@@ -27,6 +27,11 @@ export interface AlertProps extends ExtendType {
    * @defaultValue false
    */
   closable?: InnerProps;
+  /**
+   * @zh 回调参数
+   * @en Callback function
+   */
+  callback?: (option: Option) => void; 
 }
 
 interface InnerProps extends AProps {
