@@ -1,5 +1,5 @@
 import {
-  Project, SourceFile, TypeChecker, Symbol,
+  Project, SourceFile, TypeChecker, Symbol, InterfaceDeclaration, TypeAliasDeclaration, Type,
 } from 'ts-morph';
 import {
   SchemaType, GenerateConfig, defaultTypeMapT, TagType,
@@ -21,7 +21,7 @@ const project = new Project({
   },
 });
 
-const propertyRegex = /(\w+)\s{0,}([?]?)\s{0,}:(.*?);$/s;
+const propertyRegex = /(\w+)\s{0,}([?]?)\s{0,}:(.*?);?$/s;
 
 // extract pure type
 function extractFromPropertyText(text: string): ExtractType | undefined {
@@ -29,9 +29,9 @@ function extractFromPropertyText(text: string): ExtractType | undefined {
   if (!regexResult) {
     return;
   }
-  const name = regexResult![1];
-  const isOptional = regexResult![2] === '?';
-  const type = toSingleLine(regexResult![3]);
+  const name = regexResult[1];
+  const isOptional = regexResult[2] === '?';
+  const type = toSingleLine(regexResult[3]);
 
   return {
     name,
@@ -73,11 +73,20 @@ function getSchemaFromSymbol(sym: Symbol, defaultT: defaultTypeMapT): SchemaType
 
 function generateSchema(sourceFile: SourceFile, typeChecker: TypeChecker, config?: GenerateConfig) {
   const interfaces = sourceFile?.getInterfaces() || [];
+  const typeAliases = sourceFile.getTypeAliases() || [];
   const schemas = {};
 
   const defaultT = config?.defaultTypeMap || defaultTypeMap;
 
   interfaces.forEach((node) => {
+    fillSchemaFromNode(node)
+  });
+
+  typeAliases.forEach((node) => {
+    fillSchemaFromNode(node)
+  });
+
+  function fillSchemaFromNode(node: InterfaceDeclaration | TypeAliasDeclaration) {
     const type = node.getType();
 
     const schema = typeChecker.getPropertiesOfType(type).map((a) => getSchemaFromSymbol(a, defaultT)).filter((a) => a);
@@ -97,7 +106,7 @@ function generateSchema(sourceFile: SourceFile, typeChecker: TypeChecker, config
         value: tag.getCommentText(),
       })),
     };
-  });
+  }
 
   return schemas;
 }

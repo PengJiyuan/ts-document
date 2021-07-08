@@ -17,7 +17,7 @@ export interface AlertProps extends ExtendType {
    * @en this is action
    * @version 2.15.0
    */
-  action: ReactElement;
+  action: ReactElement
   /**
    * @zh 是否可以关闭
    * @en Whether Alert can be closed
@@ -34,7 +34,7 @@ export interface AlertProps extends ExtendType {
   callback?: (option: Option) => void; 
 }
 
-interface InnerProps extends AProps {
+interface InnerProps {
   /**
    * @zh 位置
    * @en position
@@ -46,3 +46,8 @@ interface InnerProps extends AProps {
    */
   size?: string;
 }
+
+/**
+ * @title Test
+ */
+export type TestType = InnerProps & AlertProps;
