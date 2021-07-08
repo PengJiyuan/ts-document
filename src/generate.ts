@@ -5,8 +5,15 @@ import {
   SchemaType, GenerateConfig, defaultTypeMapT, TagType,
 } from './interface';
 import { defaultTypeMap } from './default';
+import { toSingleLine } from './util';
 
 type generateReturnType = Record<string, { data: SchemaType[], tags: TagType[] }>;
+
+type ExtractType = {
+  name: string;
+  type: string;
+  isOptional: boolean;
+};
 
 const project = new Project({
   compilerOptions: {
@@ -14,16 +21,40 @@ const project = new Project({
   },
 });
 
+const propertyRegex = /(\w+)\s{0,}([?]?)\s{0,}:(.*)/s;
+
+// extract pure type
+function extractFromPropertyText(text: string): ExtractType | undefined {
+  const regexResult = propertyRegex.exec(text);
+  if (!regexResult) {
+    return;
+  }
+  const name = regexResult![1];
+  const isOptional = regexResult![2] === '?';
+  const type = toSingleLine(regexResult![3]);
+
+  return {
+    name,
+    isOptional,
+    type: type[type.length - 1] === ';' ? type.slice(0, -1) : type,
+  };
+}
+
 function getSchemaFromSymbol(sym: Symbol, defaultT: defaultTypeMapT): SchemaType {
   const name = sym.getName();
-  const declarations = sym.getDeclarations();
-  const typeString = declarations[0].getType().getText(sym.getDeclarations()[0]);
+  const typeText = sym.getDeclarations()[0].getText();
   const jsDocTags = sym.compilerSymbol.getJsDocTags();
+  const extract = extractFromPropertyText(typeText);
+
+  if (!extract) {
+    return;
+  }
 
   if (!jsDocTags.length || !jsDocTags.find((t) => t.name === 'zh' || t.name === 'en')) {
     if (defaultT[name]) {
       return {
         name,
+        isOptional: extract.isOptional,
         ...defaultT[name],
       };
     }
@@ -34,7 +65,8 @@ function getSchemaFromSymbol(sym: Symbol, defaultT: defaultTypeMapT): SchemaType
 
   return {
     name,
-    type: typeString,
+    type: extract.type,
+    isOptional: extract.isOptional,
     tags,
   };
 }

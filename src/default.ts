@@ -1,6 +1,6 @@
 export const defaultTypeMap = {
   className: {
-    type: 'string | string[]',
+    type: 'string \\| string[]',
     tags: [{
       name: 'zh',
       value: '节点类名',

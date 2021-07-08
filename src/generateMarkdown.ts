@@ -1,10 +1,7 @@
 import generate from './generate';
 import { defaultMarkdownSchema, defaultLang } from './default';
 import { GenerateMarkdownConfig } from './interface';
-
-function toSingleLine(str: string): string {
-  return str.replace(/[\r\n\t]+/g, '').replace(/[\x20]{2,}/g, '').replace(/\|/g, '\\|');
-}
+import { toSingleLine } from './util';
 
 function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record<string, string> | undefined {
   const lang = config?.lang || defaultLang;
@@ -13,10 +10,6 @@ function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record
   if (!markdownSchema) {
     return;
   }
-
-  let markdownHeader = `|${markdownSchema.map((md) => md.title).join('|')}|`;
-
-  markdownHeader += `\n|${markdownSchema.map(() => '---').join('|')}|\n`;
 
   const schemas = generate(file, config);
 
@@ -31,9 +24,14 @@ function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record
   }
 
   function getOutputMarkdown(name: string) {
+    const hasVersion = !!schemas?.[name].data.find((schema) => schema?.tags?.find((t) => t.name === 'version'));
+    const markSchema = hasVersion ? markdownSchema : markdownSchema.filter(m => m.value !== 'tag.version');
     const markdownContent = schemas?.[name].data.map((schema) => {
-      return getSingleLineMarkdown(schema);
+      return getSingleLineMarkdown(schema, markSchema);
     }).join('\n');
+
+    let markdownHeader = `|${markSchema.map((md) => md.title).join('|')}|`;
+    markdownHeader += `\n|${markSchema.map(() => '---').join('|')}|\n`;
 
     const tags = schemas?.[name].tags;
 
@@ -50,10 +48,10 @@ function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record
     return `${mh}${markdownContent}`;
   }
 
-  function getSingleLineMarkdown(schema) {
-    // const requiredTextWord = lang === 'zh' ? '必填' : 'Required';
-    // const requiredText = !schema.hasQuestionToken ? ` **(${requiredTextWord})**` : '';
-    const singleLineMarkdown = markdownSchema.map((ms) => {
+  function getSingleLineMarkdown(schema, markSchema) {
+    const requiredTextWord = lang === 'zh' ? '必填' : 'Required';
+    const requiredText = !schema.isOptional ? ` **(${requiredTextWord})**` : '';
+    const singleLineMarkdown = markSchema.map((ms) => {
       let field = ms.value;
       const execResult = /tag\.(\w+)/.exec(field);
       // tags
@@ -65,9 +63,9 @@ function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record
         return field === 'defaultValue' ? `\`${value}\`` : value;
       }
 
-      const value = toSingleLine(schema[field]);
+      const value = schema[field];
 
-      return field === 'type' ? `\`${value}\`` : value;
+      return field === 'type' ? `\`${value}\`${requiredText}` : value;
     }).join('|');
 
     return `|${singleLineMarkdown}|`;

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, ReactElement } from "react";
 import { AProps, CProps as DProps, Option } from "./a";
 
 type ExtendType = Pick<Pick<AProps & DProps, 'bb' | 'animation'>, 'animation' | 'bb'>;
@@ -17,16 +17,16 @@ export interface AlertProps extends ExtendType {
    * @en this is action
    * @version 2.15.0
    */
-  action?: {
-    a: string;
-    b: boolean;
-  };
+  action: ReactElement;
   /**
    * @zh 是否可以关闭
    * @en Whether Alert can be closed
    * @defaultValue false
    */
-  closable?: InnerProps;
+  closable?: {
+    a: boolean;
+    b: string;
+  };
   /**
    * @zh 回调参数
    * @en Callback function
