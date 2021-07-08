@@ -21,7 +21,7 @@ const project = new Project({
   },
 });
 
-const propertyRegex = /(\w+)\s{0,}([?]?)\s{0,}:(.*)/s;
+const propertyRegex = /(\w+)\s{0,}([?]?)\s{0,}:(.*?);$/s;
 
 // extract pure type
 function extractFromPropertyText(text: string): ExtractType | undefined {
@@ -36,7 +36,7 @@ function extractFromPropertyText(text: string): ExtractType | undefined {
   return {
     name,
     isOptional,
-    type: type[type.length - 1] === ';' ? type.slice(0, -1) : type,
+    type,
   };
 }
 
