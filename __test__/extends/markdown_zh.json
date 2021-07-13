@@ -1,0 +1,4 @@
+{
+  "Alert": "### Alert\n\n向用户显示警告的信息时，通过警告提示，展现需要关注的信息。\n\n|参数名|描述|类型|默认值|版本|\n|---|---|---|---|---|\n|action|自定义操作项|`ReactElement` **(必填)**|`-`|2.15.0|\n|closable|是否可以关闭|`{a: boolean;b: string;}`|`false`|-|\n|callback|回调参数|`(option: Option) => void`|`-`|-|\n|bb|BB|`boolean`|`-`|-|\n|animation|动画|`boolean \\| string`|`-`|-|",
+  "Test": "### Test\n\n|参数名|描述|类型|默认值|版本|\n|---|---|---|---|---|\n|position|位置|`string`|`-`|-|\n|size|尺寸|`string`|`-`|-|\n|action|自定义操作项|`ReactElement` **(必填)**|`-`|2.15.0|\n|closable|是否可以关闭|`{a: boolean;b: string;}`|`false`|-|\n|callback|回调参数|`(option: Option) => void`|`-`|-|\n|bb|BB|`boolean`|`-`|-|\n|animation|动画|`boolean \\| string`|`-`|-|"
+}

@@ -1,5 +1,5 @@
 import {
-  Project, SourceFile, TypeChecker, Symbol, InterfaceDeclaration, TypeAliasDeclaration, Type,
+  Project, SourceFile, TypeChecker, Symbol, InterfaceDeclaration, TypeAliasDeclaration,
 } from 'ts-morph';
 import {
   SchemaType, GenerateConfig, defaultTypeMapT, TagType,

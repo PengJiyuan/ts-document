@@ -1,0 +1,58 @@
+{
+  "A": {
+    "data": [
+      {
+        "name": "action",
+        "type": "ReactNode",
+        "isOptional": true,
+        "tags": [
+          {
+            "name": "zh",
+            "value": "自定义操作项"
+          },
+          {
+            "name": "en",
+            "value": "this is action"
+          },
+          {
+            "name": "version",
+            "value": "2.15.0"
+          }
+        ]
+      },
+      {
+        "name": "closable",
+        "type": "InnerProps",
+        "isOptional": true,
+        "tags": [
+          {
+            "name": "zh",
+            "value": "是否可以关闭"
+          },
+          {
+            "name": "en",
+            "value": "Whether Alert can be closed"
+          },
+          {
+            "name": "defaultValue",
+            "value": "{}"
+          }
+        ]
+      }
+    ],
+    "tags": [
+      {
+        "name": "title",
+        "value": "A"
+      },
+      {
+        "name": "zh",
+        "value": "这是接口描述。"
+      },
+      {
+        "name": "en",
+        "value": "This is interface description."
+      }
+    ]
+  }
+}

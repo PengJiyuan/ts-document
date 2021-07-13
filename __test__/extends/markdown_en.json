@@ -1,0 +1,4 @@
+{
+  "Alert": "### Alert\n\nDisplay warning information to the user. the Alert is used to display the information that needs attention.\n\n|Property|Description|Type|DefaultValue|Version|\n|---|---|---|---|---|\n|action|this is action|`ReactElement` **(Required)**|`-`|2.15.0|\n|closable|Whether Alert can be closed|`{a: boolean;b: string;}`|`false`|-|\n|callback|Callback function|`(option: Option) => void`|`-`|-|\n|bb|bb|`boolean`|`-`|-|\n|animation|animation|`boolean \\| string`|`-`|-|",
+  "Test": "### Test\n\n|Property|Description|Type|DefaultValue|Version|\n|---|---|---|---|---|\n|position|position|`string`|`-`|-|\n|size|Size|`string`|`-`|-|\n|action|this is action|`ReactElement` **(Required)**|`-`|2.15.0|\n|closable|Whether Alert can be closed|`{a: boolean;b: string;}`|`false`|-|\n|callback|Callback function|`(option: Option) => void`|`-`|-|\n|bb|bb|`boolean`|`-`|-|\n|animation|animation|`boolean \\| string`|`-`|-|"
+}
