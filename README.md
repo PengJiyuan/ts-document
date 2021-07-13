@@ -163,7 +163,7 @@ output
 
 `Record<string, { type: string, tags?: TagType[] }>`
 
-If no comments are extracted, will extracted from the `defaultTypeMap` automatically.
+If no comments are extracted, will extracted from the `defaultTypeMap` automatically.
 
 ### sourceFilesPaths
 
