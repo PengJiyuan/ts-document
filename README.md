@@ -2,6 +2,13 @@
 
 Auto generate ts document schema by ts interface conform to the [TSDoc](https://tsdoc.org/).
 
+## Highlight
+
+- Controllable parameter extraction, only the specified interface is extracted.
+- Automatically analyze extends relationships.
+- Support extract English and Chinese in one ts file.
+- Support generate markdown string directly.
+
 ## Usage
 
 ```bash
@@ -11,12 +18,14 @@ npm i ts-document -D
 ```js
 const { generate, generateMarkdown } = require("ts-document");
 
-generate(xxxx, config);
+generate("interface.ts", config);
 
-generateMarkdown(xxx, config);
+generateMarkdown("interface.ts", config);
 ```
 
 ### interface.ts
+
+ts-document will only extract interface and type with jsDoc tag `title`。
 
 ```ts
 import { ReactNode } from "react";
@@ -78,7 +87,7 @@ output
       {
         "name": "action",
         "type": "ReactNode",
-        "description": "",
+        "isOptional": true,
         "tags": [
           {
             "name": "zh",
@@ -97,7 +106,7 @@ output
       {
         "name": "closable",
         "type": "InnerProps",
-        "description": "",
+        "isOptional": true,
         "tags": [
           {
             "name": "zh",
@@ -115,6 +124,10 @@ output
       }
     ],
     "tags": [
+      {
+        "name": "title",
+        "value": "Alert"
+      },
       {
         "name": "zh",
         "value": "向用户显示警告的信息时，通过警告提示，展现需要关注的信息。"
@@ -140,11 +153,29 @@ output
 
 ```json
 {
-  "Alert": "### Alert\n\nDisplay warning information to the user. the Alert is used to display the information that needs attention.\n\n|Property|Description|Type|DefaultValue|Version|\n|---|---|---|---|---|\n|action|this is action|ReactNode|-|2.15.0|\n|closable|Whether Alert can be closed|InnerProps|false|-|"
+  "Alert": "### Alert\n\nDisplay warning information to the user. the Alert is used to display the information that needs attention.\n\n|Property|Description|Type|DefaultValue|Version|\n|---|---|---|---|---|\n|action|this is action|`ReactNode`|`-`|2.15.0|\n|closable|Whether Alert can be closed|`InnerProps`|`false`|-|"
 }
 ```
 
 ## Config
+
+### defaultTypeMap
+
+`Record<string, { type: string, tags?: TagType[] }>`
+
+If no comments are extracted, will extracted from the `defaultTypeMap` automatically.
+
+### sourceFilesPaths
+
+`string | string[]`
+
+See [ts-morph](https://ts-morph.com/setup/adding-source-files)。
+
+### lang
+
+`string`
+
+only work in `generateMarkdown`, specify output language.
 
 ## LICENSE
 
