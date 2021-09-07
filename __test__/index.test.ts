@@ -1,52 +1,83 @@
 import * as path from 'path';
-import * as fs from 'fs';
 import { generate, generateMarkdown } from '../src/index';
 
-const basicPath = path.resolve(__dirname, 'basic');
-const extendsPath = path.resolve(__dirname, 'extends');
-const defaultTypeMapPath = path.resolve(__dirname, 'defaultTypeMap');
-
-const basicSchema = fs.readFileSync(path.resolve(basicPath, 'schema.json'), 'utf8');
-const basicMarkdownZh = fs.readFileSync(path.resolve(basicPath, 'markdown_zh.json'), 'utf8');
-const basicMarkdownEn = fs.readFileSync(path.resolve(basicPath, 'markdown_en.json'), 'utf8');
-
-const extendsSchema = fs.readFileSync(path.resolve(extendsPath, 'schema.json'), 'utf8');
-const extendsMarkdownZh = fs.readFileSync(path.resolve(extendsPath, 'markdown_zh.json'), 'utf8');
-const extendsMarkdownEn = fs.readFileSync(path.resolve(extendsPath, 'markdown_en.json'), 'utf8');
-
-const defaultTypeMapSchema = fs.readFileSync(path.resolve(defaultTypeMapPath, 'schema.json'), 'utf8');
+const pathFixtures = path.resolve(__dirname, 'fixtures');
+const pathBasic = path.resolve(pathFixtures, 'basic.ts');
+const pathExtends = path.resolve(pathFixtures, 'extends/interface.ts');
+const pathDefaultMap = path.resolve(pathFixtures, 'defaultTypeMap.ts');
+const pathFunction = path.resolve(pathFixtures, 'function.ts');
 
 describe('generate', () => {
   it('basic', () => {
-    const schema = generate(path.resolve(basicPath, 'interface.ts'), { sourceFilesPaths: './**/*.ts' });
-    expect(schema).toEqual(JSON.parse(basicSchema));
+    const schema = generate(pathBasic, {
+      sourceFilesPaths: './**/*.ts',
+    });
+    expect(schema).toMatchSnapshot();
   });
 
   it('extends', () => {
-    const schema = generate(path.resolve(extendsPath, 'interface.ts'), { sourceFilesPaths: './**/*.ts' });
-    expect(schema).toEqual(JSON.parse(extendsSchema));
+    const schema = generate(pathExtends, {
+      sourceFilesPaths: './**/*.ts',
+    });
+    expect(schema).toMatchSnapshot();
   });
 
   it('defaultTypeMap', () => {
-    const schema = generate(path.resolve(defaultTypeMapPath, 'interface.ts'), { sourceFilesPaths: './**/*.ts' });
-    expect(schema).toEqual(JSON.parse(defaultTypeMapSchema));
+    const schema = generate(pathDefaultMap, {
+      sourceFilesPaths: './**/*.ts',
+    });
+    expect(schema).toMatchSnapshot();
+  });
+
+  it('function type', () => {
+    const schema = generate(pathFunction, {
+      sourceFilesPaths: './**/*.ts',
+    });
+    expect(schema).toMatchSnapshot();
   });
 });
 
 describe('generateMarkdown', () => {
   it('basic', () => {
-    const markdownZh = generateMarkdown(path.resolve(basicPath, 'interface.ts'), { sourceFilesPaths: './**/*.ts', lang: 'zh' });
-    const markdownEn = generateMarkdown(path.resolve(basicPath, 'interface.ts'), { sourceFilesPaths: './**/*.ts', lang: 'en' });
+    const markdownZh = generateMarkdown(pathBasic, {
+      sourceFilesPaths: './**/*.ts',
+      lang: 'zh',
+    });
+    const markdownEn = generateMarkdown(pathBasic, {
+      sourceFilesPaths: './**/*.ts',
+      lang: 'en',
+    });
 
-    expect(markdownZh).toEqual(JSON.parse(basicMarkdownZh));
-    expect(markdownEn).toEqual(JSON.parse(basicMarkdownEn));
+    expect(markdownZh).toMatchSnapshot();
+    expect(markdownEn).toMatchSnapshot();
   });
 
   it('extends', () => {
-    const markdownZh = generateMarkdown(path.resolve(extendsPath, 'interface.ts'), { sourceFilesPaths: './**/*.ts', lang: 'zh' });
-    const markdownEn = generateMarkdown(path.resolve(extendsPath, 'interface.ts'), { sourceFilesPaths: './**/*.ts', lang: 'en' });
+    const markdownZh = generateMarkdown(pathExtends, {
+      sourceFilesPaths: './**/*.ts',
+      lang: 'zh',
+    });
+    const markdownEn = generateMarkdown(pathExtends, {
+      sourceFilesPaths: './**/*.ts',
+      lang: 'en',
+    });
 
-    expect(markdownZh).toEqual(JSON.parse(extendsMarkdownZh));
-    expect(markdownEn).toEqual(JSON.parse(extendsMarkdownEn));
+    expect(markdownZh).toMatchSnapshot();
+    expect(markdownEn).toMatchSnapshot();
+  });
+
+  it('function type', () => {
+    const markdownZh = generateMarkdown(pathFunction, {
+      sourceFilesPaths: './**/*.ts',
+      lang: 'zh',
+    });
+    const markdownEn = generateMarkdown(pathFunction, {
+      sourceFilesPaths: './**/*.ts',
+      lang: 'en',
+      strictDeclarationOrder: true,
+    });
+
+    expect(markdownZh).toMatchSnapshot();
+    expect(markdownEn).toMatchSnapshot();
   });
 });

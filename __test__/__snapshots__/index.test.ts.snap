@@ -1,0 +1,675 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generate basic 1`] = `
+Object {
+  "A": Object {
+    "data": Array [
+      Object {
+        "isOptional": true,
+        "name": "action",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "自定义操作项",
+          },
+          Object {
+            "name": "en",
+            "value": "this is action",
+          },
+          Object {
+            "name": "version",
+            "value": "2.15.0",
+          },
+        ],
+        "type": "ReactNode",
+      },
+      Object {
+        "isOptional": true,
+        "name": "closable",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "是否可以关闭",
+          },
+          Object {
+            "name": "en",
+            "value": "Whether Alert can be closed",
+          },
+          Object {
+            "name": "defaultValue",
+            "value": "{}",
+          },
+        ],
+        "type": "InnerProps",
+      },
+    ],
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "A",
+      },
+      Object {
+        "name": "zh",
+        "value": "这是接口描述。",
+      },
+      Object {
+        "name": "en",
+        "value": "This is interface description.",
+      },
+    ],
+  },
+}
+`;
+
+exports[`generate defaultTypeMap 1`] = `
+Object {
+  "A": Object {
+    "data": Array [
+      Object {
+        "isOptional": false,
+        "name": "style",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "节点样式",
+          },
+          Object {
+            "name": "en",
+            "value": "Additional style",
+          },
+        ],
+        "type": "CSSProperties",
+      },
+      Object {
+        "isOptional": false,
+        "name": "className",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "节点类名",
+          },
+          Object {
+            "name": "en",
+            "value": "Additional css class",
+          },
+        ],
+        "type": "string \\\\| string[]",
+      },
+    ],
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "A",
+      },
+    ],
+  },
+}
+`;
+
+exports[`generate extends 1`] = `
+Object {
+  "Alert": Object {
+    "data": Array [
+      Object {
+        "isOptional": false,
+        "name": "action",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "自定义操作项",
+          },
+          Object {
+            "name": "en",
+            "value": "this is action",
+          },
+          Object {
+            "name": "version",
+            "value": "2.15.0",
+          },
+        ],
+        "type": "ReactElement",
+      },
+      Object {
+        "isOptional": true,
+        "name": "closable",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "是否可以关闭",
+          },
+          Object {
+            "name": "en",
+            "value": "Whether Alert can be closed",
+          },
+          Object {
+            "name": "defaultValue",
+            "value": "false",
+          },
+        ],
+        "type": "{a: boolean;b: string;}",
+      },
+      Object {
+        "isOptional": true,
+        "name": "callback",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "回调参数",
+          },
+          Object {
+            "name": "en",
+            "value": "Callback function",
+          },
+        ],
+        "type": "(option: Option) => void",
+      },
+      Object {
+        "isOptional": true,
+        "name": "bb",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "BB",
+          },
+          Object {
+            "name": "en",
+            "value": "bb",
+          },
+        ],
+        "type": "boolean",
+      },
+      Object {
+        "isOptional": true,
+        "name": "animation",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "动画",
+          },
+          Object {
+            "name": "en",
+            "value": "animation",
+          },
+        ],
+        "type": "boolean \\\\| string",
+      },
+    ],
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "Alert",
+      },
+      Object {
+        "name": "zh",
+        "value": "向用户显示警告的信息时，通过警告提示，展现需要关注的信息。",
+      },
+      Object {
+        "name": "en",
+        "value": "Display warning information to the user. the Alert is used to display the information that needs attention.",
+      },
+    ],
+  },
+  "Test": Object {
+    "data": Array [
+      Object {
+        "isOptional": true,
+        "name": "position",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "位置",
+          },
+          Object {
+            "name": "en",
+            "value": "position",
+          },
+        ],
+        "type": "string",
+      },
+      Object {
+        "isOptional": true,
+        "name": "size",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "尺寸",
+          },
+          Object {
+            "name": "en",
+            "value": "Size",
+          },
+        ],
+        "type": "string",
+      },
+      Object {
+        "isOptional": false,
+        "name": "action",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "自定义操作项",
+          },
+          Object {
+            "name": "en",
+            "value": "this is action",
+          },
+          Object {
+            "name": "version",
+            "value": "2.15.0",
+          },
+        ],
+        "type": "ReactElement",
+      },
+      Object {
+        "isOptional": true,
+        "name": "closable",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "是否可以关闭",
+          },
+          Object {
+            "name": "en",
+            "value": "Whether Alert can be closed",
+          },
+          Object {
+            "name": "defaultValue",
+            "value": "false",
+          },
+        ],
+        "type": "{a: boolean;b: string;}",
+      },
+      Object {
+        "isOptional": true,
+        "name": "callback",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "回调参数",
+          },
+          Object {
+            "name": "en",
+            "value": "Callback function",
+          },
+        ],
+        "type": "(option: Option) => void",
+      },
+      Object {
+        "isOptional": true,
+        "name": "bb",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "BB",
+          },
+          Object {
+            "name": "en",
+            "value": "bb",
+          },
+        ],
+        "type": "boolean",
+      },
+      Object {
+        "isOptional": true,
+        "name": "animation",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "动画",
+          },
+          Object {
+            "name": "en",
+            "value": "animation",
+          },
+        ],
+        "type": "boolean \\\\| string",
+      },
+    ],
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "Test",
+      },
+    ],
+  },
+}
+`;
+
+exports[`generate function type 1`] = `
+Object {
+  "Add": Object {
+    "params": Array [
+      Object {
+        "initializerText": null,
+        "isOptional": false,
+        "name": "a",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "被加数",
+          },
+          Object {
+            "name": "en",
+            "value": "First number",
+          },
+        ],
+        "type": "number",
+      },
+      Object {
+        "initializerText": "5",
+        "isOptional": true,
+        "name": "b",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "加数",
+          },
+          Object {
+            "name": "en",
+            "value": "Second number",
+          },
+        ],
+        "type": "number",
+      },
+    ],
+    "returns": "number",
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "Add",
+      },
+      Object {
+        "name": "en",
+        "value": "Add two numbers",
+      },
+      Object {
+        "name": "zh",
+        "value": "两数相加",
+      },
+      Object {
+        "name": "returns",
+        "value": "Sum of two numbers",
+      },
+      Object {
+        "name": "version",
+        "value": "1.0.0",
+      },
+    ],
+  },
+  "Button": Object {
+    "data": Array [
+      Object {
+        "isOptional": true,
+        "name": "size",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "尺寸",
+          },
+          Object {
+            "name": "en",
+            "value": "Size",
+          },
+          Object {
+            "name": "defaultValue",
+            "value": "default",
+          },
+        ],
+        "type": "'mini' \\\\| 'large' \\\\| 'default'",
+      },
+      Object {
+        "isOptional": true,
+        "name": "color",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "颜色",
+          },
+          Object {
+            "name": "en",
+            "value": "Color",
+          },
+          Object {
+            "name": "version",
+            "value": "1.2.0",
+          },
+        ],
+        "type": "string",
+      },
+    ],
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "Button",
+      },
+      Object {
+        "name": "zh",
+        "value": "按钮",
+      },
+      Object {
+        "name": "en",
+        "value": "Button",
+      },
+    ],
+  },
+  "Plus": Object {
+    "params": Array [
+      Object {
+        "initializerText": null,
+        "isOptional": false,
+        "name": "a",
+        "tags": Array [
+          Object {
+            "name": "en",
+            "value": "First number",
+          },
+          Object {
+            "name": "zh",
+            "value": "被乘数",
+          },
+        ],
+        "type": "number",
+      },
+      Object {
+        "initializerText": "1",
+        "isOptional": false,
+        "name": "b",
+        "tags": Array [
+          Object {
+            "name": "en",
+            "value": "Second number",
+          },
+          Object {
+            "name": "zh",
+            "value": "乘数",
+          },
+          Object {
+            "name": "defaultValue",
+            "value": "1",
+          },
+        ],
+        "type": "number",
+      },
+    ],
+    "returns": "number",
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "Plus",
+      },
+      Object {
+        "name": "zh",
+        "value": "两数相乘",
+      },
+      Object {
+        "name": "en",
+        "value": "Multiply two numbers",
+      },
+      Object {
+        "name": "returns",
+        "value": "Product of two numbers",
+      },
+    ],
+  },
+}
+`;
+
+exports[`generateMarkdown basic 1`] = `
+Object {
+  "A": "### A
+
+这是接口描述。
+
+|参数名|描述|类型|默认值|版本|
+|---|---|---|---|---|
+|action|自定义操作项|\`ReactNode\`|\`-\`|2.15.0|
+|closable|是否可以关闭|\`InnerProps\`|\`{}\`|-|",
+}
+`;
+
+exports[`generateMarkdown basic 2`] = `
+Object {
+  "A": "### A
+
+This is interface description.
+
+|Property|Description|Type|DefaultValue|Version|
+|---|---|---|---|---|
+|action|this is action|\`ReactNode\`|\`-\`|2.15.0|
+|closable|Whether Alert can be closed|\`InnerProps\`|\`{}\`|-|",
+}
+`;
+
+exports[`generateMarkdown extends 1`] = `
+Object {
+  "Alert": "### Alert
+
+向用户显示警告的信息时，通过警告提示，展现需要关注的信息。
+
+|参数名|描述|类型|默认值|版本|
+|---|---|---|---|---|
+|action|自定义操作项|\`ReactElement\` **(必填)**|\`-\`|2.15.0|
+|closable|是否可以关闭|\`{a: boolean;b: string;}\`|\`false\`|-|
+|callback|回调参数|\`(option: Option) => void\`|\`-\`|-|
+|bb|BB|\`boolean\`|\`-\`|-|
+|animation|动画|\`boolean \\\\| string\`|\`-\`|-|",
+  "Test": "### Test
+
+|参数名|描述|类型|默认值|版本|
+|---|---|---|---|---|
+|position|位置|\`string\`|\`-\`|-|
+|size|尺寸|\`string\`|\`-\`|-|
+|action|自定义操作项|\`ReactElement\` **(必填)**|\`-\`|2.15.0|
+|closable|是否可以关闭|\`{a: boolean;b: string;}\`|\`false\`|-|
+|callback|回调参数|\`(option: Option) => void\`|\`-\`|-|
+|bb|BB|\`boolean\`|\`-\`|-|
+|animation|动画|\`boolean \\\\| string\`|\`-\`|-|",
+}
+`;
+
+exports[`generateMarkdown extends 2`] = `
+Object {
+  "Alert": "### Alert
+
+Display warning information to the user. the Alert is used to display the information that needs attention.
+
+|Property|Description|Type|DefaultValue|Version|
+|---|---|---|---|---|
+|action|this is action|\`ReactElement\` **(Required)**|\`-\`|2.15.0|
+|closable|Whether Alert can be closed|\`{a: boolean;b: string;}\`|\`false\`|-|
+|callback|Callback function|\`(option: Option) => void\`|\`-\`|-|
+|bb|bb|\`boolean\`|\`-\`|-|
+|animation|animation|\`boolean \\\\| string\`|\`-\`|-|",
+  "Test": "### Test
+
+|Property|Description|Type|DefaultValue|Version|
+|---|---|---|---|---|
+|position|position|\`string\`|\`-\`|-|
+|size|Size|\`string\`|\`-\`|-|
+|action|this is action|\`ReactElement\` **(Required)**|\`-\`|2.15.0|
+|closable|Whether Alert can be closed|\`{a: boolean;b: string;}\`|\`false\`|-|
+|callback|Callback function|\`(option: Option) => void\`|\`-\`|-|
+|bb|bb|\`boolean\`|\`-\`|-|
+|animation|animation|\`boolean \\\\| string\`|\`-\`|-|",
+}
+`;
+
+exports[`generateMarkdown function type 1`] = `
+Object {
+  "Add": "### Add
+
+两数相加
+
+#### Since
+1.0.0
+
+#### Returns
+\`number\`: Sum of two numbers
+
+#### Arguments
+|参数名|描述|类型|默认值|
+|---|---|---|---|
+|a|被加数|\`number\` **(必填)**|-|
+|b|加数|\`number\`|\`5\`|",
+  "Button": "### Button
+
+按钮
+
+|参数名|描述|类型|默认值|版本|
+|---|---|---|---|---|
+|size|尺寸|\`'mini' \\\\| 'large' \\\\| 'default'\`|\`default\`|-|
+|color|颜色|\`string\`|\`-\`|1.2.0|",
+  "Plus": "### Plus
+
+两数相乘
+
+#### Returns
+\`number\`: Product of two numbers
+
+#### Arguments
+|参数名|描述|类型|默认值|
+|---|---|---|---|
+|a|被乘数|\`number\` **(必填)**|-|
+|b|乘数|\`number\` **(必填)**|\`1\`|",
+}
+`;
+
+exports[`generateMarkdown function type 2`] = `
+Array [
+  "### Plus
+
+Multiply two numbers
+
+#### Returns
+\`number\`: Product of two numbers
+
+#### Arguments
+|Argument|Description|Type|DefaultValue|
+|---|---|---|---|
+|a|First number|\`number\` **(Required)**|-|
+|b|Second number|\`number\` **(Required)**|\`1\`|",
+  "### Add
+
+Add two numbers
+
+#### Since
+1.0.0
+
+#### Returns
+\`number\`: Sum of two numbers
+
+#### Arguments
+|Argument|Description|Type|DefaultValue|
+|---|---|---|---|
+|a|First number|\`number\` **(Required)**|-|
+|b|Second number|\`number\`|\`5\`|",
+  "### Button
+
+Button
+
+|Property|Description|Type|DefaultValue|Version|
+|---|---|---|---|---|
+|size|Size|\`'mini' \\\\| 'large' \\\\| 'default'\`|\`default\`|-|
+|color|Color|\`string\`|\`-\`|1.2.0|",
+]
+`;
