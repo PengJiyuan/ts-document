@@ -1,11 +1,23 @@
 import generate from './generate';
-import { defaultMarkdownSchema, defaultLang } from './default';
-import { GenerateMarkdownConfig } from './interface';
+import { defaultMarkdownTableSchema, defaultLang } from './default';
+import {
+  MarkdownTableType,
+  FunctionSchema,
+  GenerateMarkdownConfig,
+  InterfaceSchema,
+  PropertyType,
+  Schema,
+} from './interface';
 import { toSingleLine } from './util';
 
-function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record<string, string> | undefined {
+const BASE_TITLE_PREFIX = '###';
+
+function generateMarkdown(
+  file: string,
+  config?: GenerateMarkdownConfig
+): Record<string, string> | string[] | undefined {
   const lang = config?.lang || defaultLang;
-  const markdownSchema = defaultMarkdownSchema[lang];
+  const markdownSchema = defaultMarkdownTableSchema[lang];
 
   if (!markdownSchema) {
     return;
@@ -17,61 +29,103 @@ function generateMarkdown(file: string, config?: GenerateMarkdownConfig): Record
     return;
   }
 
-  const markdownOutput: Record<string, string> = {};
+  const getMarkdownTable = (data: PropertyType[], type: MarkdownTableType) => {
+    const hasVersionTag = data.find((item) => item?.tags?.find((t) => t.name === 'version'));
+    const tableColumns: Array<{ title: string; value: string }> = [];
 
-  for (const name in schemas) {
-    markdownOutput[name] = getOutputMarkdown(name);
-  }
+    markdownSchema.forEach(({ title, value }) => {
+      title = typeof title === 'object' ? title[type] : title;
+      value = typeof value === 'object' ? value[type] : value;
+      if (hasVersionTag || value !== 'tag.version') {
+        tableColumns.push({ title, value });
+      }
+    });
 
-  function getOutputMarkdown(name: string) {
-    const hasVersion = !!schemas?.[name].data.find((schema) => schema?.tags?.find((t) => t.name === 'version'));
-    const markSchema = hasVersion ? markdownSchema : markdownSchema.filter(m => m.value !== 'tag.version');
-    const markdownContent = schemas?.[name].data.map((schema) => {
-      return getSingleLineMarkdown(schema, markSchema);
-    }).join('\n');
+    const tableHeader = `|${tableColumns.map(({ title }) => title).join('|')}|
+|${tableColumns.map(() => '---').join('|')}|`;
 
-    let markdownHeader = `|${markSchema.map((md) => md.title).join('|')}|`;
-    markdownHeader += `\n|${markSchema.map(() => '---').join('|')}|\n`;
+    const tableBody = data
+      .map((schema) => {
+        const requiredTextWord = lang === 'zh' ? '必填' : 'Required';
+        const requiredText = !schema.isOptional ? ` **(${requiredTextWord})**` : '';
+        const singleLineMarkdown = tableColumns
+          .map((column) => {
+            let field = column.value;
 
-    const tags = schemas?.[name].tags;
+            // Field like tag.version
+            const execResult = /tag\.(\w+)/.exec(field);
+            if (execResult) {
+              field = execResult[1];
+              const obj = schema.tags?.find((tag) => tag.name === field);
+              const value = obj ? toSingleLine(obj.value) : '-';
+              return field === 'defaultValue' ? `\`${value}\`` : value;
+            }
 
-    const langTag = tags?.find((tag) => tag.name === lang);
+            const value = schema[field];
+            switch (field) {
+              case 'type': {
+                return `\`${value}\`${requiredText}`;
+              }
+              case 'initializerText': {
+                return value !== null ? `\`${value}\`` : '-';
+              }
+              default:
+                return value;
+            }
+          })
+          .join('|');
 
-    let mh = markdownHeader;
+        return `|${singleLineMarkdown}|`;
+      })
+      .join('\n');
 
-    if (tags?.length && langTag) {
-      mh = `${langTag.value}\n\n${mh}`;
+    return `${tableHeader}\n${tableBody}`;
+  };
+
+  const getMarkdownFromSchema = (title: string, schema: Schema): string => {
+    const markdownTitle = `${BASE_TITLE_PREFIX} ${title}`;
+    const dataForTable = (schema as InterfaceSchema).data || (schema as FunctionSchema).params;
+    const tagMap: Record<string, string> = {};
+    schema.tags.forEach(({ name, value }) => (tagMap[name] = value));
+
+    let description = tagMap[lang] || '';
+    let table =
+      dataForTable && dataForTable.length
+        ? getMarkdownTable(
+            dataForTable,
+            (schema as FunctionSchema).params ? 'parameter' : 'interface'
+          )
+        : '';
+
+    // Function type
+    const { params, returns: typeOfReturn } = schema as FunctionSchema;
+    if (params) {
+      const { version, returns } = tagMap;
+      if (version) {
+        description += `${description ? '\n\n' : ''}${BASE_TITLE_PREFIX}# Since\n${version}`;
+      }
+      description += `${
+        description ? '\n\n' : ''
+      }${BASE_TITLE_PREFIX}# Returns\n\`${typeOfReturn}\`${returns ? `: ${returns}` : ''}`;
+      table = `${BASE_TITLE_PREFIX}# Arguments\n${table}`;
     }
 
-    mh = `### ${name}\n\n${mh}`;
+    return [markdownTitle, description, table].filter((str) => str).join('\n\n');
+  };
 
-    return `${mh}${markdownContent}`;
+  if (config?.strictDeclarationOrder) {
+    const markdownList: string[] = [];
+    (schemas as Array<{ title: string; schema: Schema }>).forEach(({ title, schema }) =>
+      markdownList.push(getMarkdownFromSchema(title, schema))
+    );
+    return markdownList;
   }
 
-  function getSingleLineMarkdown(schema, markSchema) {
-    const requiredTextWord = lang === 'zh' ? '必填' : 'Required';
-    const requiredText = !schema.isOptional ? ` **(${requiredTextWord})**` : '';
-    const singleLineMarkdown = markSchema.map((ms) => {
-      let field = ms.value;
-      const execResult = /tag\.(\w+)/.exec(field);
-      // tags
-      if (execResult) {
-        field = execResult[1];
-        const obj = schema.tags.find((tag) => tag.name === field);
-        const value = obj ? toSingleLine(obj.value) : '-';
-
-        return field === 'defaultValue' ? `\`${value}\`` : value;
-      }
-
-      const value = schema[field];
-
-      return field === 'type' ? `\`${value}\`${requiredText}` : value;
-    }).join('|');
-
-    return `|${singleLineMarkdown}|`;
-  }
-
-  return markdownOutput;
+  const markdownMap: Record<string, string> = {};
+  Object.entries(schemas as Record<string, Schema>).forEach(([title, schema]) => {
+    markdownMap[title] = getMarkdownFromSchema(title, schema);
+  });
+  return markdownMap;
 }
 
 export default generateMarkdown;

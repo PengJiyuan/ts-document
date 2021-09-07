@@ -1,3 +1,0 @@
-{
-  "A": "### A\n\nThis is interface description.\n\n|Property|Description|Type|DefaultValue|Version|\n|---|---|---|---|---|\n|action|this is action|`ReactNode`|`-`|2.15.0|\n|closable|Whether Alert can be closed|`InnerProps`|`{}`|-|"
-}

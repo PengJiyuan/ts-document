@@ -108,3 +108,5 @@ dist
 
 # dist files
 lib/
+
+.idea
