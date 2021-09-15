@@ -1,7 +1,7 @@
 const path = require("path");
 const { generate } = require("../lib");
 
-const schema = generate(path.resolve(__dirname, "readme.tsx"), {
+const schema = generate(path.resolve(__dirname, "a.tsx"), {
   sourceFilesPaths: ["examples/**/*.ts", "examples/**/*.tsx"],
 });
 

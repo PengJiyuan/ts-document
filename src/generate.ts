@@ -87,13 +87,20 @@ function generateSchema(sourceFile: SourceFile, typeChecker: TypeChecker, config
   });
 
   function fillSchemaFromNode(node: InterfaceDeclaration | TypeAliasDeclaration) {
+    const tags = node.getJsDocs()[0]?.getTags() || [];
+    const name = tags.find((tag) => tag.getTagName() === 'title')?.getComment() as string;
+    const notExtends = !!tags.find((tag) => tag.getTagName() === 'notExtends');
+
     const type = node.getType();
 
-    const schema = typeChecker.getPropertiesOfType(type).map((a) => getSchemaFromSymbol(a, defaultT)).filter((a) => a);
+    let schema: SchemaType[];
 
-    const tags = node.getJsDocs()[0]?.getTags() || [];
-
-    const name = tags.find((tag) => tag.getTagName() === 'title')?.getComment() as string;
+    // only interface support notExtends
+    if (notExtends && (node as InterfaceDeclaration).getProperties) {
+      schema = (node as InterfaceDeclaration).getProperties().map((a) => getSchemaFromSymbol(a.getSymbol() as Symbol, defaultT)).filter((a) => a);
+    } else {
+      schema = typeChecker.getPropertiesOfType(type).map((a) => getSchemaFromSymbol(a, defaultT)).filter((a) => a);
+    }
 
     if (!name) {
       return;

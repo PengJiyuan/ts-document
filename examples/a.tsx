@@ -15,7 +15,11 @@ export interface AProps extends BProps {
   animation?: boolean | string;
 }
 
-export interface CProps {
+/**
+ * @title C
+ * @notExtends
+ */
+export interface CProps extends AProps {
   /**
    * @zh BB
    * @en bb
