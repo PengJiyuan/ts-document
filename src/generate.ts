@@ -15,6 +15,8 @@ type ExtractType = {
   isOptional: boolean;
 };
 
+const TAG_NAMES_FOR_DESCRIPTION = ['zh', 'en'];
+
 const project = new Project({
   compilerOptions: {
     jsx: 'react' as any,
@@ -43,32 +45,39 @@ function extractFromPropertyText(text: string): ExtractType | undefined {
 function getSchemaFromSymbol(sym: Symbol, defaultT: defaultTypeMapT): SchemaType {
   const name = sym.getName();
   const typeText = sym.getDeclarations()[0].getText();
-  const jsDocTags = sym.compilerSymbol.getJsDocTags();
   const extract = extractFromPropertyText(typeText);
 
   if (!extract) {
     return;
   }
 
-  if (!jsDocTags.length || !jsDocTags.find((t) => t.name === 'zh' || t.name === 'en')) {
-    if (defaultT[name]) {
-      return {
-        name,
-        isOptional: extract.isOptional,
-        ...defaultT[name],
-      };
-    }
-    return;
+  const jsDocTags = sym.compilerSymbol.getJsDocTags();
+  const tags: TagType[] = jsDocTags.map((tag) => ({ name: tag.name, value: tag.text?.[0].text }));
+
+  // Try to extend property description from common comment
+  const [ commonComment ] = sym.compilerSymbol.getDocumentationComment(undefined);
+  if (commonComment && commonComment.kind === 'text' && commonComment.text) {
+    TAG_NAMES_FOR_DESCRIPTION.forEach((tagNameForDescription) => {
+      if (!tags.find(({ name }) => name === tagNameForDescription)) {
+        tags.push({ name: tagNameForDescription, value: commonComment.text })
+      }
+    });
   }
 
-  const tags = jsDocTags.map((tag) => ({ name: tag.name, value: tag.text?.[0].text }));
+  if (tags.find(({ name }) => name && TAG_NAMES_FOR_DESCRIPTION.indexOf(name) > -1)) {
+    return {
+      name,
+      type: extract.type,
+      isOptional: extract.isOptional,
+      tags,
+    };
+  }
 
-  return {
+  return defaultT[name] ? {
     name,
-    type: extract.type,
     isOptional: extract.isOptional,
-    tags,
-  };
+    ...defaultT[name],
+  } : undefined;
 }
 
 function generateSchema(sourceFile: SourceFile, typeChecker: TypeChecker, config?: GenerateConfig) {
