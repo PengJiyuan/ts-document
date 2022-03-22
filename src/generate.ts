@@ -42,7 +42,7 @@ function extractFromPropertyText(text: string): ExtractType | undefined {
   };
 }
 
-function getSchemaFromSymbol(sym: Symbol, defaultT: defaultTypeMapT): SchemaType {
+function getSchemaFromSymbol(sym: Symbol, defaultT: defaultTypeMapT, strictComment: boolean): SchemaType {
   const name = sym.getName();
   const typeText = sym.getDeclarations()[0].getText();
   const extract = extractFromPropertyText(typeText);
@@ -55,13 +55,15 @@ function getSchemaFromSymbol(sym: Symbol, defaultT: defaultTypeMapT): SchemaType
   const tags: TagType[] = jsDocTags.map((tag) => ({ name: tag.name, value: tag.text?.[0].text }));
 
   // Try to extend property description from common comment
-  const [ commonComment ] = sym.compilerSymbol.getDocumentationComment(undefined);
-  if (commonComment && commonComment.kind === 'text' && commonComment.text) {
-    TAG_NAMES_FOR_DESCRIPTION.forEach((tagNameForDescription) => {
-      if (!tags.find(({ name }) => name === tagNameForDescription)) {
-        tags.push({ name: tagNameForDescription, value: commonComment.text })
-      }
-    });
+  if (!strictComment) {
+    const [ commonComment ] = sym.compilerSymbol.getDocumentationComment(undefined);
+    if (commonComment && commonComment.kind === 'text' && commonComment.text) {
+      TAG_NAMES_FOR_DESCRIPTION.forEach((tagNameForDescription) => {
+        if (!tags.find(({ name }) => name === tagNameForDescription)) {
+          tags.push({ name: tagNameForDescription, value: commonComment.text })
+        }
+      });
+    }
   }
 
   if (tags.find(({ name }) => name && TAG_NAMES_FOR_DESCRIPTION.indexOf(name) > -1)) {
@@ -99,6 +101,7 @@ function generateSchema(sourceFile: SourceFile, typeChecker: TypeChecker, config
     const tags = node.getJsDocs()[0]?.getTags() || [];
     const name = tags.find((tag) => tag.getTagName() === 'title')?.getComment() as string;
     const notExtends = !!tags.find((tag) => tag.getTagName() === 'notExtends');
+    const strictComment = !!config?.strictComment;
 
     const type = node.getType();
 
@@ -106,9 +109,13 @@ function generateSchema(sourceFile: SourceFile, typeChecker: TypeChecker, config
 
     // only interface support notExtends
     if (notExtends && (node as InterfaceDeclaration).getProperties) {
-      schema = (node as InterfaceDeclaration).getProperties().map((a) => getSchemaFromSymbol(a.getSymbol() as Symbol, defaultT)).filter((a) => a);
+      schema = (node as InterfaceDeclaration).getProperties().map(
+        (a) => getSchemaFromSymbol(a.getSymbol() as Symbol, defaultT, strictComment)
+      ).filter((a) => a);
     } else {
-      schema = typeChecker.getPropertiesOfType(type).map((a) => getSchemaFromSymbol(a, defaultT)).filter((a) => a);
+      schema = typeChecker.getPropertiesOfType(type).map(
+        (a) => getSchemaFromSymbol(a, defaultT, strictComment)
+      ).filter((a) => a);
     }
 
     if (!name) {
