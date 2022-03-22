@@ -4,7 +4,7 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "prepublish": "npm run test && npm run tsc",
+    "prepublishOnly": "npm run test && npm run tsc",
     "tsc": "rm -rf lib/ && tsc",
     "tsc:watch": "tsc -w",
     "lint": "eslint src/ --fix --ext .ts,.tsx",
