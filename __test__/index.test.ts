@@ -6,6 +6,7 @@ const pathBasic = path.resolve(pathFixtures, 'basic.ts');
 const pathExtends = path.resolve(pathFixtures, 'extends/interface.ts');
 const pathDefaultMap = path.resolve(pathFixtures, 'defaultTypeMap.ts');
 const pathFunction = path.resolve(pathFixtures, 'function.ts');
+const pathPropertySorter = path.resolve(pathFixtures, 'propertySorter.ts');
 
 describe('generate', () => {
   it('basic', () => {
@@ -32,6 +33,26 @@ describe('generate', () => {
   it('function type', () => {
     const schema = generate(pathFunction, {
       sourceFilesPaths: './**/*.ts',
+    });
+    expect(schema).toMatchSnapshot();
+  });
+
+  it('sort property', () => {
+    const schema = generate(pathPropertySorter, {
+      sourceFilesPaths: './**/*.ts',
+      propertySorter: ({ type: typeA }, { type: typeB }) => {
+        const getLevel = (type) =>
+          type === 'boolean'
+            ? 0
+            : type === 'number'
+            ? 1
+            : type === 'string'
+            ? 2
+            : /([^)]*)\s*=>/.test(type)
+            ? 3
+            : -1;
+        return getLevel(typeA) - getLevel(typeB);
+      },
     });
     expect(schema).toMatchSnapshot();
   });

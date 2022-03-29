@@ -45,6 +45,10 @@ export type GenerateConfig = {
    * When it's true, generate function will return Array<{ title: string; schema: Schema }>
    */
   strictDeclarationOrder?: boolean;
+  /**
+   * The compare function to sort properties/arguments of schema
+   */
+  propertySorter?: (a: PropertyType, b: typeof a) => number;
 };
 
 export type GenerateMarkdownConfig = GenerateConfig & {
