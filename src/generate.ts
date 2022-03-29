@@ -14,6 +14,7 @@ import {
   TagType,
   FunctionSchema,
   Schema,
+  InterfaceSchema,
 } from './interface';
 import { defaultTypeMap } from './default';
 import { toSingleLine } from './util';
@@ -161,6 +162,7 @@ function generateSchema(sourceFile: SourceFile, typeChecker: TypeChecker, config
   const functions = sourceFile?.getFunctions() || [];
   const defaultT = config?.defaultTypeMap || defaultTypeMap;
   const strictComment = !!config?.strictComment;
+  const propertySorter = config?.propertySorter;
 
   const schemaMap: Record<string, Schema> = {};
   const schemaList: Array<{ title: string; schema: Schema }> = [];
@@ -216,6 +218,11 @@ function generateSchema(sourceFile: SourceFile, typeChecker: TypeChecker, config
           schema && data.push(schema);
         });
         schema = { tags, data };
+      }
+
+      if (typeof propertySorter === 'function') {
+        (schema as InterfaceSchema).data?.sort(propertySorter);
+        (schema as FunctionSchema).params?.sort(propertySorter);
       }
 
       schemaList.push({ title, schema });

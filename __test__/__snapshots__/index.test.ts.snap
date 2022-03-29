@@ -514,6 +514,127 @@ Object {
 }
 `;
 
+exports[`generate sort property 1`] = `
+Object {
+  "Button": Object {
+    "data": Array [
+      Object {
+        "isOptional": true,
+        "name": "size",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "尺寸",
+          },
+          Object {
+            "name": "en",
+            "value": "Size",
+          },
+          Object {
+            "name": "defaultValue",
+            "value": "default",
+          },
+        ],
+        "type": "'mini' \\\\| 'large' \\\\| 'default'",
+      },
+      Object {
+        "isOptional": true,
+        "name": "readonly",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "只读",
+          },
+          Object {
+            "name": "en",
+            "value": "Readonly",
+          },
+        ],
+        "type": "boolean",
+      },
+      Object {
+        "isOptional": true,
+        "name": "disabled",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "禁用",
+          },
+          Object {
+            "name": "en",
+            "value": "Disabled",
+          },
+        ],
+        "type": "boolean",
+      },
+      Object {
+        "isOptional": true,
+        "name": "tabIndex",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "TabIndex",
+          },
+          Object {
+            "name": "en",
+            "value": "TabIndex",
+          },
+        ],
+        "type": "number",
+      },
+      Object {
+        "isOptional": true,
+        "name": "color",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "颜色",
+          },
+          Object {
+            "name": "en",
+            "value": "Color",
+          },
+          Object {
+            "name": "version",
+            "value": "1.2.0",
+          },
+        ],
+        "type": "string",
+      },
+      Object {
+        "isOptional": true,
+        "name": "renderText",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "自定义文本渲染",
+          },
+          Object {
+            "name": "en",
+            "value": "Custom text render",
+          },
+        ],
+        "type": "() => string",
+      },
+    ],
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "Button",
+      },
+      Object {
+        "name": "zh",
+        "value": "按钮",
+      },
+      Object {
+        "name": "en",
+        "value": "Button",
+      },
+    ],
+  },
+}
+`;
+
 exports[`generateMarkdown basic 1`] = `
 Object {
   "A": "### A
