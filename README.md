@@ -16,11 +16,11 @@ npm i ts-document -D
 ```
 
 ```js
-const { generate, generateMarkdown } = require("ts-document");
+const { generate, generateMarkdown } = require('ts-document');
 
-generate("interface.ts", config);
+generate('interface.ts', config);
 
-generateMarkdown("interface.ts", config);
+generateMarkdown('interface.ts', config);
 ```
 
 ### interface.ts
@@ -28,7 +28,7 @@ generateMarkdown("interface.ts", config);
 ts-document will only extract interface and type with jsDoc tag `title`。
 
 ```ts
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 /**
  * @title Alert
@@ -73,9 +73,9 @@ interface InnerProps {
 ## Generate jsDoc schema
 
 ```js
-const { generate } = require("ts-document");
+const { generate } = require('ts-document');
 
-generate("interface.ts");
+generate('interface.ts');
 ```
 
 output
@@ -144,9 +144,9 @@ output
 ## Generate markdown document
 
 ```js
-const { generateMarkdown } = require("ts-document");
+const { generateMarkdown } = require('ts-document');
 
-generateMarkdown("interface.ts");
+generateMarkdown('interface.ts');
 ```
 
 output
@@ -171,11 +171,29 @@ If no comments are extracted, will extracted from the `defaultTypeMap` automatic
 
 See [ts-morph](https://ts-morph.com/setup/adding-source-files)。
 
+### strictComment
+
+`boolean`
+
+Whether to skip parsing documentation comment like `/** Some comment **/` as property description if there is no tag like `@en` or `@zh`.
+
+### strictDeclarationOrder
+
+`boolean`
+
+Generate schema in the order their declarations appear in the document. When it's true, `generate/generateMarkdown` will return an array list(`Array<{ title: string; schema: Schema }>`).
+
+### propertySorter
+
+`(a: { name: string; type: string; isOptional: boolean; tags: Array<{ name: string; value: string }>; }, b: typeof a) => number`
+
+The compare function to sort properties/arguments of schema generated.
+
 ### lang
 
 `string`
 
-only work in `generateMarkdown`, specify output language.
+Only work in `generateMarkdown`, specify output language.
 
 ## LICENSE
 
