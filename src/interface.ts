@@ -1,3 +1,5 @@
+import { Project } from "ts-morph";
+
 // K-V pair parsed from jsDoc
 export type TagType = {
   name: string;
@@ -49,6 +51,10 @@ export type GenerateConfig = {
    * The compare function to sort properties/arguments of schema
    */
   propertySorter?: (a: PropertyType, b: typeof a) => number;
+  /**
+   * Custom project to use in generate function
+   */
+  project?: Project;
 };
 
 export type GenerateMarkdownConfig = GenerateConfig & {
