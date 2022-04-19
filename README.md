@@ -195,6 +195,12 @@ The compare function to sort properties/arguments of schema generated.
 
 Only work in `generateMarkdown`, specify output language.
 
+### project
+
+`Project`
+
+Custom project to use in generate function. See [ts-morph](https://ts-morph.com/setup/)。
+
 ## LICENSE
 
 [MIT](./LICENSE) © [PengJiyuan](https://github.com/PengJiyuan)
