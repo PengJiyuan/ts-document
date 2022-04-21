@@ -661,6 +661,86 @@ This is interface description.
 }
 `;
 
+exports[`generateMarkdown custom project 1`] = `
+Object {
+  "Add": "### Add
+
+两数相加
+
+#### Since
+1.0.0
+
+#### Returns
+\`number\`: Sum of two numbers
+
+#### Arguments
+|参数名|描述|类型|默认值|
+|---|---|---|---|
+|a|被加数|\`number\` **(必填)**|-|
+|b|加数|\`number\`|\`5\`|",
+  "Button": "### Button
+
+按钮
+
+|参数名|描述|类型|默认值|版本|
+|---|---|---|---|---|
+|size|尺寸|\`'mini' \\\\| 'large' \\\\| 'default'\`|\`default\`|-|
+|color|颜色|\`string\`|\`-\`|1.2.0|",
+  "Plus": "### Plus
+
+两数相乘
+
+#### Returns
+\`number\`: Product of two numbers
+
+#### Arguments
+|参数名|描述|类型|默认值|
+|---|---|---|---|
+|a|被乘数|\`number\` **(必填)**|-|
+|b|乘数|\`number\` **(必填)**|\`1\`|",
+}
+`;
+
+exports[`generateMarkdown custom project 2`] = `
+Array [
+  "### Plus
+
+Multiply two numbers
+
+#### Returns
+\`number\`: Product of two numbers
+
+#### Arguments
+|Argument|Description|Type|DefaultValue|
+|---|---|---|---|
+|a|First number|\`number\` **(Required)**|-|
+|b|Second number|\`number\` **(Required)**|\`1\`|",
+  "### Add
+
+Add two numbers
+
+#### Since
+1.0.0
+
+#### Returns
+\`number\`: Sum of two numbers
+
+#### Arguments
+|Argument|Description|Type|DefaultValue|
+|---|---|---|---|
+|a|First number|\`number\` **(Required)**|-|
+|b|Second number|\`number\`|\`5\`|",
+  "### Button
+
+Button
+
+|Property|Description|Type|DefaultValue|Version|
+|---|---|---|---|---|
+|size|Size|\`'mini' \\\\| 'large' \\\\| 'default'\`|\`default\`|-|
+|color|Color|\`string\`|\`-\`|1.2.0|",
+]
+`;
+
 exports[`generateMarkdown extends 1`] = `
 Object {
   "Alert": "### Alert

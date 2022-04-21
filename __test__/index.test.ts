@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { generate, generateMarkdown } from '../src/index';
+import { generate, generateMarkdown, Project } from '../src/index';
 
 const pathFixtures = path.resolve(__dirname, 'fixtures');
 const pathBasic = path.resolve(pathFixtures, 'basic.ts');
@@ -96,6 +96,28 @@ describe('generateMarkdown', () => {
       sourceFilesPaths: './**/*.ts',
       lang: 'en',
       strictDeclarationOrder: true,
+    });
+
+    expect(markdownZh).toMatchSnapshot();
+    expect(markdownEn).toMatchSnapshot();
+  });
+
+  it('custom project', () => {
+    const project = new Project({
+      compilerOptions: {
+        jsx: 'react' as any,
+      },
+    });
+    const markdownZh = generateMarkdown(pathFunction, {
+      sourceFilesPaths: './**/*.ts',
+      lang: 'zh',
+      project,
+    });
+    const markdownEn = generateMarkdown(pathFunction, {
+      sourceFilesPaths: './**/*.ts',
+      lang: 'en',
+      strictDeclarationOrder: true,
+      project,
     });
 
     expect(markdownZh).toMatchSnapshot();

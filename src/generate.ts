@@ -29,7 +29,7 @@ type ExtractType = {
 
 const TAG_NAMES_FOR_DESCRIPTION = ['zh', 'en'];
 
-const project = new Project({
+const internalProject = new Project({
   compilerOptions: {
     jsx: 'react' as any,
   },
@@ -236,6 +236,8 @@ function generate(
   file: string,
   config?: GenerateConfig
 ): Record<string, Schema> | Array<{ title: string; schema: Schema }> | undefined {
+  const project = config?.project || internalProject;
+
   if (config?.sourceFilesPaths) {
     project.addSourceFilesAtPaths(config?.sourceFilesPaths);
   }
