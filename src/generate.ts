@@ -6,6 +6,10 @@ import {
   FunctionDeclaration,
   InterfaceDeclaration,
   TypeAliasDeclaration,
+  Node,
+  Type,
+  ts,
+  SyntaxKind,
 } from 'ts-morph';
 import {
   PropertyType,
@@ -14,10 +18,14 @@ import {
   TagType,
   FunctionSchema,
   Schema,
+  SchemaList,
   InterfaceSchema,
+  NestedTypeSchema,
+  LinkFormatter,
 } from './interface';
-import { defaultTypeMap } from './default';
-import { toSingleLine } from './util';
+import { defaultTypeMap, defaultLinkFormatter } from './default';
+import { toSingleLine, escape } from './util';
+import { format } from 'prettier';
 
 type DeclarationCanBeParsed = InterfaceDeclaration | TypeAliasDeclaration | FunctionDeclaration;
 
@@ -26,6 +34,8 @@ type ExtractType = {
   type: string;
   isOptional: boolean;
 };
+
+const KEYWORDS_TO_SKIP = ['Omit'];
 
 const TAG_NAMES_FOR_DESCRIPTION = ['zh', 'en'];
 
@@ -45,7 +55,7 @@ function extractFromPropertyText(text: string): ExtractType | undefined {
   }
   const name = regexResult[1];
   const isOptional = regexResult[2] === '?';
-  const type = toSingleLine(regexResult[3]);
+  const type = toSingleLine(escape(regexResult[3]));
 
   return {
     name,
@@ -100,14 +110,167 @@ function getSymbolTags(sym: Symbol, strictComment = false): TagType[] {
   return tags;
 }
 
+function getSymbolByType(type: Type) {
+  return type.getAliasSymbol() || type.getSymbol();
+}
+
+// Check whether the type is our target that we want to continue parsing
+function isTarget(type: Type, parsedNestedTypeSet: Set<Type>) {
+  // Has parsed before
+  if (parsedNestedTypeSet.has(type)) {
+    return false;
+  }
+  const declaration: any = getDeclarationBySymbol(getSymbolByType(type));
+  const defPath = declaration?.getSourceFile()?.getFilePath();
+  const { title } = (declaration?.getJsDocs && getDeclarationTags(declaration)) || {};
+  if (
+    // Types from node_modules
+    (defPath && defPath.includes('/node_modules/')) ||
+    // Types that will be parsed with JSDocs => skip them
+    title
+  ) {
+    // Type with @title in JSDoc is used to format link but not dumped as nested types onto page
+    if (title) {
+      parsedNestedTypeSet.add(type);
+    }
+    return false;
+  }
+
+  return (
+    type.isInterface() || type.isEnum() || type.isUnionOrIntersection() || isAliasDeclaration(type)
+  );
+}
+
+function isAliasDeclaration(type: Type) {
+  // No type.isAlias method so do alias declaration check separately
+  const aliasSymbol = type.getAliasSymbol();
+  if (aliasSymbol) {
+    return getDeclarationBySymbol(aliasSymbol)?.getKind() === SyntaxKind.TypeAliasDeclaration;
+  }
+  return false;
+}
+
+function getDeclarationBySymbol(symbol?: Symbol) {
+  return symbol?.getDeclarations()?.[0];
+}
+
+function getDeclarationTextBySymbol(symbol?: Symbol) {
+  const declaration = getDeclarationBySymbol(symbol);
+  return format(declaration?.print() || '', { parser: 'typescript' });
+}
+
+/**
+ *
+ * @param declaration declaration to be parsed
+ * @param nestedTypeList list to store the nested types to be displayed on the doc page
+ * @param parsedNestedTypes set of parsed nested types to avoid infinite loop
+ * @returns
+ */
+function dumpNestedTypes(
+  declaration: Node<ts.Node> | undefined,
+  nestedTypeList: SchemaList,
+  parsedNestedTypes: Set<Type>
+) {
+  if (declaration == null) {
+    return;
+  }
+  declaration.forEachDescendant((descendant) => {
+    const typeOfIdentifier = descendant.getType();
+    const symbolOfIdentifier = getSymbolByType(typeOfIdentifier);
+    const title = symbolOfIdentifier?.getName();
+    if (
+      // Only interested in type nodes that has title and matches our target check
+      !Node.isTypeNode(descendant) ||
+      !title ||
+      KEYWORDS_TO_SKIP.includes(title) ||
+      !isTarget(typeOfIdentifier, parsedNestedTypes)
+    ) {
+      return;
+    }
+    parsedNestedTypes.add(typeOfIdentifier);
+    const schema: NestedTypeSchema = {
+      tags: [
+        {
+          name: 'title',
+          value: title,
+        },
+      ],
+      data: getDeclarationTextBySymbol(symbolOfIdentifier),
+      isNestedType: true,
+    } as NestedTypeSchema;
+    nestedTypeList.push({
+      title,
+      schema,
+    });
+    if (typeOfIdentifier.isUnionOrIntersection()) {
+      const method = typeOfIdentifier.isUnion() ? 'getUnionTypes' : 'getIntersectionTypes';
+      // Recursively iterate subTypes
+      const subTypes = typeOfIdentifier[method]() || [];
+      subTypes.forEach((subType) => {
+        const subTypeSymbol = getSymbolByType(subType);
+        if (subTypeSymbol && getDeclarationBySymbol(subTypeSymbol)) {
+          dumpNestedTypes(getDeclarationBySymbol(subTypeSymbol), nestedTypeList, parsedNestedTypes);
+        }
+      });
+    } else if (typeOfIdentifier.isInterface()) {
+      // Recursively iterate children properties
+      (getDeclarationBySymbol(symbolOfIdentifier) as InterfaceDeclaration)
+        .getProperties()
+        .forEach((a) => {
+          dumpNestedTypes(getDeclarationBySymbol(a.getSymbol()), nestedTypeList, parsedNestedTypes);
+        });
+    }
+  });
+  return nestedTypeList;
+}
+
+function getDisplayTypeWithLink(
+  originTypeText: string,
+  nestedTypeList: SchemaList,
+  parsedNestedTypeSet: Set<Type>,
+  linkFormatter: LinkFormatter
+) {
+  let displayType = originTypeText;
+  for (const parsedNestedType of parsedNestedTypeSet) {
+    const typeName = getSymbolByType(parsedNestedType)?.getName();
+    if (!typeName) {
+      continue;
+    }
+    const matchedNestedType = nestedTypeList.find((item) => item.title === typeName);
+    let link;
+    if (matchedNestedType) {
+      // Type that is available on the current page and doesn't have JSDoc @title
+      link = linkFormatter({ typeName });
+    } else {
+      const declaration: any = getDeclarationBySymbol(getSymbolByType(parsedNestedType));
+      const definitionPath = declaration?.getSourceFile()?.getFilePath();
+      const { title } = (declaration?.getJsDocs && getDeclarationTags(declaration)) || {};
+      // Has @title in JSDoc
+      if (title) {
+        link = linkFormatter({ typeName, jsDocTitle: title, fullPath: definitionPath });
+      }
+    }
+    // Only convert to link when link is available
+    if (link) {
+      const regExp = new RegExp(typeName, 'g');
+      displayType = displayType.replace(regExp, `[${typeName}](${link})`);
+    }
+  }
+  return displayType;
+}
+
 // Get Json schema of interface's property
 function getPropertySchema(
   sym: Symbol,
   defaultT: DefaultTypeMapT,
-  strictComment = false
+  strictComment = false,
+  nestedTypeList: SchemaList,
+  parsedNestedTypeSet: Set<Type>,
+  linkFormatter: LinkFormatter
 ): PropertyType | null {
   const name = sym.getName();
-  const typeText = sym.getDeclarations()[0].getText();
+  const declaration = sym.getDeclarations()[0];
+  const typeText = declaration.getText();
   const extract = extractFromPropertyText(typeText);
 
   if (!extract) {
@@ -116,9 +279,19 @@ function getPropertySchema(
 
   const tags = getSymbolTags(sym, strictComment);
   if (tags.find(({ name }) => name && TAG_NAMES_FOR_DESCRIPTION.indexOf(name) > -1)) {
+    let typeWithLink = extract.type;
+    // Deeply analyze nested types
+    dumpNestedTypes(declaration, nestedTypeList, parsedNestedTypeSet);
+    typeWithLink = getDisplayTypeWithLink(
+      typeWithLink,
+      nestedTypeList,
+      parsedNestedTypeSet,
+      linkFormatter
+    );
+
     return {
       name,
-      type: extract.type,
+      type: typeWithLink,
       isOptional: extract.isOptional,
       tags,
     };
@@ -163,9 +336,12 @@ function generateSchema(sourceFile: SourceFile, typeChecker: TypeChecker, config
   const defaultT = config?.defaultTypeMap || defaultTypeMap;
   const strictComment = !!config?.strictComment;
   const propertySorter = config?.propertySorter;
+  const linkFormatter = config?.linkFormatter || defaultLinkFormatter;
 
   const schemaMap: Record<string, Schema> = {};
-  const schemaList: Array<{ title: string; schema: Schema }> = [];
+  const schemaList: SchemaList = [];
+  const nestedTypeList: SchemaList = [];
+  const parsedNestedTypeSet = new Set<Type>();
 
   [...interfaces, ...typeAliases, ...functions]
     .sort((declarationA, declarationB) => {
@@ -207,14 +383,28 @@ function generateSchema(sourceFile: SourceFile, typeChecker: TypeChecker, config
       ) {
         const data: PropertyType[] = [];
         (declaration as InterfaceDeclaration).getProperties().forEach((a) => {
-          const schema = getPropertySchema(a.getSymbol() as Symbol, defaultT, strictComment);
+          const schema = getPropertySchema(
+            a.getSymbol() as Symbol,
+            defaultT,
+            strictComment,
+            nestedTypeList,
+            parsedNestedTypeSet,
+            linkFormatter
+          );
           schema && data.push(schema);
         });
         schema = { tags, data };
       } else {
         const data: PropertyType[] = [];
         typeChecker.getPropertiesOfType(declaration.getType()).forEach((a) => {
-          const schema = getPropertySchema(a, defaultT, strictComment);
+          const schema = getPropertySchema(
+            a,
+            defaultT,
+            strictComment,
+            nestedTypeList,
+            parsedNestedTypeSet,
+            linkFormatter
+          );
           schema && data.push(schema);
         });
         schema = { tags, data };
@@ -229,7 +419,19 @@ function generateSchema(sourceFile: SourceFile, typeChecker: TypeChecker, config
       schemaMap[title] = schema;
     });
 
-  return config?.strictDeclarationOrder ? schemaList : schemaMap;
+  let list = schemaList;
+  let map = schemaMap;
+  if (nestedTypeList.length > 0) {
+    list = [...schemaList, ...nestedTypeList];
+    map = {
+      ...schemaMap,
+      ...nestedTypeList.reduce((result, item) => {
+        result[item.title] = item.schema;
+        return result;
+      }, {}),
+    };
+  }
+  return config?.strictDeclarationOrder ? list : map;
 }
 
 function generate(

@@ -201,6 +201,12 @@ Only work in `generateMarkdown`, specify output language.
 
 Custom project to use in `generate/generateMarkdown` function. See [ts-morph](https://ts-morph.com/setup/)。
 
+### linkFormatter
+
+`({ typeName: string, jsDocTitle?: string, fullPath: string }) => string`
+
+Format function to generate link of nested types.
+
 ## LICENSE
 
 [MIT](./LICENSE) © [PengJiyuan](https://github.com/PengJiyuan)
