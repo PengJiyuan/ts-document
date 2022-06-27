@@ -8,11 +8,8 @@
     "outDir": "lib",
     "jsx": "react",
     "declaration": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "typeRoots": ["node_modules/@types"],
+    "downlevelIteration": true
   },
-  "include": [
-    "src/**/*.ts"
-  ]
+  "include": ["src/**/*.ts"]
 }

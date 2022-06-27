@@ -7,6 +7,24 @@ const pathExtends = path.resolve(pathFixtures, 'extends/interface.ts');
 const pathDefaultMap = path.resolve(pathFixtures, 'defaultTypeMap.ts');
 const pathFunction = path.resolve(pathFixtures, 'function.ts');
 const pathPropertySorter = path.resolve(pathFixtures, 'propertySorter.ts');
+const pathNest = path.resolve(pathFixtures, 'nest/interface.ts');
+
+const nestLinkFormatter = (options) => {
+  const { typeName, jsDocTitle, fullPath } = options;
+  const toHyphen = (str) => {
+    return str
+      .replace(/^\w/, (g) => g.toLowerCase())
+      .replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`);
+  };
+  if (!jsDocTitle) {
+    return `#${typeName}`;
+  }
+  const componentName = (fullPath || '').match(/components\/([^/]*)/)?.[1];
+  if (componentName) {
+    return `${toHyphen(componentName)}#${jsDocTitle}`;
+  }
+  return '';
+};
 
 describe('generate', () => {
   it('basic', () => {
@@ -56,6 +74,14 @@ describe('generate', () => {
     });
     expect(schema).toMatchSnapshot();
   });
+
+  it('nested types', () => {
+    const schema = generate(pathNest, {
+      sourceFilesPaths: './**/*.ts',
+      linkFormatter: nestLinkFormatter,
+    });
+    expect(schema).toMatchSnapshot();
+  });
 });
 
 describe('generateMarkdown', () => {
@@ -68,7 +94,6 @@ describe('generateMarkdown', () => {
       sourceFilesPaths: './**/*.ts',
       lang: 'en',
     });
-
     expect(markdownZh).toMatchSnapshot();
     expect(markdownEn).toMatchSnapshot();
   });
@@ -82,7 +107,6 @@ describe('generateMarkdown', () => {
       sourceFilesPaths: './**/*.ts',
       lang: 'en',
     });
-
     expect(markdownZh).toMatchSnapshot();
     expect(markdownEn).toMatchSnapshot();
   });
@@ -97,7 +121,6 @@ describe('generateMarkdown', () => {
       lang: 'en',
       strictDeclarationOrder: true,
     });
-
     expect(markdownZh).toMatchSnapshot();
     expect(markdownEn).toMatchSnapshot();
   });
@@ -119,7 +142,21 @@ describe('generateMarkdown', () => {
       strictDeclarationOrder: true,
       project,
     });
+    expect(markdownZh).toMatchSnapshot();
+    expect(markdownEn).toMatchSnapshot();
+  });
 
+  it('nested types', () => {
+    const markdownZh = generateMarkdown(pathNest, {
+      sourceFilesPaths: './**/*.ts',
+      lang: 'zh',
+      linkFormatter: nestLinkFormatter,
+    });
+    const markdownEn = generateMarkdown(pathNest, {
+      sourceFilesPaths: './**/*.ts',
+      lang: 'en',
+      linkFormatter: nestLinkFormatter,
+    });
     expect(markdownZh).toMatchSnapshot();
     expect(markdownEn).toMatchSnapshot();
   });

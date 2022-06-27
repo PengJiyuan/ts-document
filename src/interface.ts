@@ -1,4 +1,4 @@
-import { Project } from "ts-morph";
+import { Project } from 'ts-morph';
 
 // K-V pair parsed from jsDoc
 export type TagType = {
@@ -27,8 +27,25 @@ export type InterfaceSchema = {
   data: PropertyType[];
 };
 
+// Schema parsed from nested type declaration
+export type NestedTypeSchema = {
+  tags: TagType[];
+  data: string;
+  isNestedType: true;
+};
+
+export interface LinkFormatterParam {
+  typeName: string;
+  jsDocTitle?: string;
+  fullPath?: string;
+}
+
+export type LinkFormatter = (param: LinkFormatterParam) => string | undefined;
+
+export type SchemaList = Array<{ title: string; schema: Schema }>;
+
 // Collect of all schema type generated
-export type Schema = FunctionSchema | InterfaceSchema;
+export type Schema = FunctionSchema | InterfaceSchema | NestedTypeSchema;
 
 // Table type in markdown generated
 export type MarkdownTableType = 'interface' | 'parameter';
@@ -55,6 +72,10 @@ export type GenerateConfig = {
    * Custom project to use in generate function
    */
   project?: Project;
+  /**
+   * Format function to generate link of the nested type
+   */
+  linkFormatter?: LinkFormatter;
 };
 
 export type GenerateMarkdownConfig = GenerateConfig & {

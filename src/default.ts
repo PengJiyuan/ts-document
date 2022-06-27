@@ -1,4 +1,4 @@
-import { MarkdownTableType } from './interface';
+import { MarkdownTableType, LinkFormatterParam } from './interface';
 
 export const defaultLang = 'en';
 
@@ -30,6 +30,8 @@ export const defaultTypeMap = {
     ],
   },
 };
+
+export const defaultLinkFormatter = ({ typeName }: LinkFormatterParam): string => `#${typeName}`;
 
 export const defaultMarkdownTableSchema: Record<
   string,

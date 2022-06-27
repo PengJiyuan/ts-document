@@ -40,7 +40,7 @@ Object {
             "value": "{}",
           },
         ],
-        "type": "InnerProps",
+        "type": "[InnerProps](#InnerProps)",
       },
     ],
     "tags": Array [
@@ -55,6 +55,28 @@ Object {
       Object {
         "name": "en",
         "value": "This is interface description.",
+      },
+    ],
+  },
+  "InnerProps": Object {
+    "data": "export interface InnerProps {
+  /**
+   * @zh 位置
+   * @en position
+   */
+  position?: string;
+  /**
+   * @zh 尺寸
+   * @en Size
+   */
+  size?: string;
+}
+",
+    "isNestedType": true,
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "InnerProps",
       },
     ],
   },
@@ -161,7 +183,7 @@ Object {
             "value": "Callback function",
           },
         ],
-        "type": "(option: Option) => void",
+        "type": "(option: [Option](#Option)) => void",
       },
       Object {
         "isOptional": true,
@@ -206,6 +228,20 @@ Object {
       Object {
         "name": "en",
         "value": "Display warning information to the user. the Alert is used to display the information that needs attention.",
+      },
+    ],
+  },
+  "Option": Object {
+    "data": "export type Option = {
+  a: string;
+  b: string;
+};
+",
+    "isNestedType": true,
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "Option",
       },
     ],
   },
@@ -292,7 +328,7 @@ Object {
             "value": "Callback function",
           },
         ],
-        "type": "(option: Option) => void",
+        "type": "(option: [Option](#Option)) => void",
       },
       Object {
         "isOptional": true,
@@ -514,6 +550,341 @@ Object {
 }
 `;
 
+exports[`generate nested types 1`] = `
+Object {
+  "A": Object {
+    "data": Array [
+      Object {
+        "isOptional": true,
+        "name": "treeSelectDataType",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "树选择数据属性",
+          },
+          Object {
+            "name": "en",
+            "value": "treeSelectDataType",
+          },
+        ],
+        "type": "[TreeSelectDataType](#TreeSelectDataType)",
+      },
+      Object {
+        "isOptional": false,
+        "name": "onClick",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "点击回调",
+          },
+          Object {
+            "name": "en",
+            "value": "onClick",
+          },
+        ],
+        "type": "(num: number) => void",
+      },
+      Object {
+        "isOptional": false,
+        "name": "b",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "属性 B",
+          },
+          Object {
+            "name": "en",
+            "value": "BProps",
+          },
+        ],
+        "type": "[BlinkProps](blink#Blink)",
+      },
+      Object {
+        "isOptional": true,
+        "name": "action",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "操作项",
+          },
+          Object {
+            "name": "en",
+            "value": "action",
+          },
+        ],
+        "type": "ReactNode",
+      },
+      Object {
+        "isOptional": true,
+        "name": "owner",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "负责人",
+          },
+          Object {
+            "name": "en",
+            "value": "owner",
+          },
+        ],
+        "type": "Partial&lt;[Owner](#Owner)&gt;",
+      },
+      Object {
+        "isOptional": true,
+        "name": "size",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "尺寸",
+          },
+          Object {
+            "name": "en",
+            "value": "size",
+          },
+        ],
+        "type": "[Size](#Size)",
+      },
+      Object {
+        "isOptional": true,
+        "name": "columns",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "列配置",
+          },
+          Object {
+            "name": "en",
+            "value": "column settings",
+          },
+          Object {
+            "name": "defaultValue",
+            "value": "{}",
+          },
+        ],
+        "type": "[ColProps](#ColProps)",
+      },
+      Object {
+        "isOptional": false,
+        "name": "sorter",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "排序",
+          },
+          Object {
+            "name": "en",
+            "value": "sorter",
+          },
+        ],
+        "type": "(a: [SorterProps](#SorterProps), b: [SorterProps](#SorterProps)) =&gt; Promise&lt;void&gt;",
+      },
+      Object {
+        "isOptional": true,
+        "name": "direction",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "方向",
+          },
+          Object {
+            "name": "en",
+            "value": "direction",
+          },
+        ],
+        "type": "[Direction](#Direction)",
+      },
+      Object {
+        "isOptional": false,
+        "name": "option",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "选项",
+          },
+          Object {
+            "name": "en",
+            "value": "option",
+          },
+        ],
+        "type": "[OptionInfo](#OptionInfo)",
+      },
+    ],
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "A",
+      },
+      Object {
+        "name": "zh",
+        "value": "这是接口描述。",
+      },
+      Object {
+        "name": "en",
+        "value": "This is interface description.",
+      },
+    ],
+  },
+  "ColProps": Object {
+    "data": "export interface ColProps {
+  // width of the column
+  width?: number;
+  name?: string;
+  onColumnCallback: (param: onColumnCallbackProps) => number;
+}
+",
+    "isNestedType": true,
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "ColProps",
+      },
+    ],
+  },
+  "Direction": Object {
+    "data": "enum Direction {
+  LEFT,
+  RIGHT,
+  UP,
+  DOWN,
+}
+",
+    "isNestedType": true,
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "Direction",
+      },
+    ],
+  },
+  "InnerMethodsReturnType": Object {
+    "data": "interface InnerMethodsReturnType {
+  text: string;
+}
+",
+    "isNestedType": true,
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "InnerMethodsReturnType",
+      },
+    ],
+  },
+  "OptionInfo": Object {
+    "data": "export interface OptionInfo extends PropsWithChildren<BlinkProps> {
+  valid: boolean;
+  index: number;
+  origin: \\"children\\" | \\"options\\" | \\"userCreatedOptions\\" | \\"userCreatingOption\\";
+}
+",
+    "isNestedType": true,
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "OptionInfo",
+      },
+    ],
+  },
+  "Owner": Object {
+    "data": "interface Owner {
+  name: string;
+  age: number;
+}
+",
+    "isNestedType": true,
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "Owner",
+      },
+    ],
+  },
+  "Size": Object {
+    "data": "export type Size = number | string | SizeObject;
+",
+    "isNestedType": true,
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "Size",
+      },
+    ],
+  },
+  "SizeObject": Object {
+    "data": "type SizeObject = {
+  [key in string]: number;
+};
+",
+    "isNestedType": true,
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "SizeObject",
+      },
+    ],
+  },
+  "SorterProps": Object {
+    "data": "interface SorterProps {
+  counter: number;
+}
+",
+    "isNestedType": true,
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "SorterProps",
+      },
+    ],
+  },
+  "TreeDataType": Object {
+    "data": "export type TreeDataType = {
+  key?: string;
+  _index?: number;
+  children: TreeDataType[];
+  loadMore: (data: TreeDataType) => void;
+};
+",
+    "isNestedType": true,
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "TreeDataType",
+      },
+    ],
+  },
+  "TreeSelectDataType": Object {
+    "data": "export type TreeSelectDataType = TreeDataType & {
+  getInnerMethods: (inner: boolean) => InnerMethodsReturnType;
+};
+",
+    "isNestedType": true,
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "TreeSelectDataType",
+      },
+    ],
+  },
+  "onColumnCallbackProps": Object {
+    "data": "interface onColumnCallbackProps {
+  // index of column
+  index: string;
+  position: {
+    x: number;
+    y: number;
+  };
+}
+",
+    "isNestedType": true,
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "onColumnCallbackProps",
+      },
+    ],
+  },
+}
+`;
+
 exports[`generate sort property 1`] = `
 Object {
   "Button": Object {
@@ -643,8 +1014,24 @@ Object {
 
 |参数名|描述|类型|默认值|版本|
 |---|---|---|---|---|
-|action|自定义操作项|\`ReactNode\`|\`-\`|2.15.0|
-|closable|是否可以关闭|\`InnerProps\`|\`{}\`|-|",
+|action|自定义操作项|ReactNode |\`-\`|2.15.0|
+|closable|是否可以关闭|[InnerProps](#InnerProps) |\`{}\`|-|",
+  "InnerProps": "### InnerProps
+
+\`\`\`js
+export interface InnerProps {
+  /**
+   * @zh 位置
+   * @en position
+   */
+  position?: string;
+  /**
+   * @zh 尺寸
+   * @en Size
+   */
+  size?: string;
+}
+\`\`\`",
 }
 `;
 
@@ -656,8 +1043,24 @@ This is interface description.
 
 |Property|Description|Type|DefaultValue|Version|
 |---|---|---|---|---|
-|action|this is action|\`ReactNode\`|\`-\`|2.15.0|
-|closable|Whether Alert can be closed|\`InnerProps\`|\`{}\`|-|",
+|action|this is action|ReactNode |\`-\`|2.15.0|
+|closable|Whether Alert can be closed|[InnerProps](#InnerProps) |\`{}\`|-|",
+  "InnerProps": "### InnerProps
+
+\`\`\`js
+export interface InnerProps {
+  /**
+   * @zh 位置
+   * @en position
+   */
+  position?: string;
+  /**
+   * @zh 尺寸
+   * @en Size
+   */
+  size?: string;
+}
+\`\`\`",
 }
 `;
 
@@ -676,16 +1079,16 @@ Object {
 #### Arguments
 |参数名|描述|类型|默认值|
 |---|---|---|---|
-|a|被加数|\`number\` **(必填)**|-|
-|b|加数|\`number\`|\`5\`|",
+|a|被加数|number  **(必填)**|-|
+|b|加数|number |\`5\`|",
   "Button": "### Button
 
 按钮
 
 |参数名|描述|类型|默认值|版本|
 |---|---|---|---|---|
-|size|尺寸|\`'mini' \\\\| 'large' \\\\| 'default'\`|\`default\`|-|
-|color|颜色|\`string\`|\`-\`|1.2.0|",
+|size|尺寸|'mini' \\\\| 'large' \\\\| 'default' |\`default\`|-|
+|color|颜色|string |\`-\`|1.2.0|",
   "Plus": "### Plus
 
 两数相乘
@@ -696,8 +1099,8 @@ Object {
 #### Arguments
 |参数名|描述|类型|默认值|
 |---|---|---|---|
-|a|被乘数|\`number\` **(必填)**|-|
-|b|乘数|\`number\` **(必填)**|\`1\`|",
+|a|被乘数|number  **(必填)**|-|
+|b|乘数|number  **(必填)**|\`1\`|",
 }
 `;
 
@@ -713,8 +1116,8 @@ Multiply two numbers
 #### Arguments
 |Argument|Description|Type|DefaultValue|
 |---|---|---|---|
-|a|First number|\`number\` **(Required)**|-|
-|b|Second number|\`number\` **(Required)**|\`1\`|",
+|a|First number|number  **(Required)**|-|
+|b|Second number|number  **(Required)**|\`1\`|",
   "### Add
 
 Add two numbers
@@ -728,16 +1131,16 @@ Add two numbers
 #### Arguments
 |Argument|Description|Type|DefaultValue|
 |---|---|---|---|
-|a|First number|\`number\` **(Required)**|-|
-|b|Second number|\`number\`|\`5\`|",
+|a|First number|number  **(Required)**|-|
+|b|Second number|number |\`5\`|",
   "### Button
 
 Button
 
 |Property|Description|Type|DefaultValue|Version|
 |---|---|---|---|---|
-|size|Size|\`'mini' \\\\| 'large' \\\\| 'default'\`|\`default\`|-|
-|color|Color|\`string\`|\`-\`|1.2.0|",
+|size|Size|'mini' \\\\| 'large' \\\\| 'default' |\`default\`|-|
+|color|Color|string |\`-\`|1.2.0|",
 ]
 `;
 
@@ -749,22 +1152,30 @@ Object {
 
 |参数名|描述|类型|默认值|版本|
 |---|---|---|---|---|
-|action|自定义操作项|\`ReactElement\` **(必填)**|\`-\`|2.15.0|
-|closable|是否可以关闭|\`{a: boolean;b: string;}\`|\`false\`|-|
-|callback|回调参数|\`(option: Option) => void\`|\`-\`|-|
-|bb|BB|\`boolean\`|\`-\`|-|
-|animation|动画|\`boolean \\\\| string\`|\`-\`|-|",
+|action|自定义操作项|ReactElement  **(必填)**|\`-\`|2.15.0|
+|closable|是否可以关闭|{a: boolean;b: string;} |\`false\`|-|
+|callback|回调参数|(option: [Option](#Option)) => void |\`-\`|-|
+|bb|BB|boolean |\`-\`|-|
+|animation|动画|boolean \\\\| string |\`-\`|-|",
+  "Option": "### Option
+
+\`\`\`js
+export type Option = {
+  a: string;
+  b: string;
+};
+\`\`\`",
   "Test": "### Test
 
 |参数名|描述|类型|默认值|版本|
 |---|---|---|---|---|
-|position|位置|\`string\`|\`-\`|-|
-|size|尺寸|\`string\`|\`-\`|-|
-|action|自定义操作项|\`ReactElement\` **(必填)**|\`-\`|2.15.0|
-|closable|是否可以关闭|\`{a: boolean;b: string;}\`|\`false\`|-|
-|callback|回调参数|\`(option: Option) => void\`|\`-\`|-|
-|bb|BB|\`boolean\`|\`-\`|-|
-|animation|动画|\`boolean \\\\| string\`|\`-\`|-|",
+|position|位置|string |\`-\`|-|
+|size|尺寸|string |\`-\`|-|
+|action|自定义操作项|ReactElement  **(必填)**|\`-\`|2.15.0|
+|closable|是否可以关闭|{a: boolean;b: string;} |\`false\`|-|
+|callback|回调参数|(option: [Option](#Option)) => void |\`-\`|-|
+|bb|BB|boolean |\`-\`|-|
+|animation|动画|boolean \\\\| string |\`-\`|-|",
 }
 `;
 
@@ -776,22 +1187,30 @@ Display warning information to the user. the Alert is used to display the inform
 
 |Property|Description|Type|DefaultValue|Version|
 |---|---|---|---|---|
-|action|this is action|\`ReactElement\` **(Required)**|\`-\`|2.15.0|
-|closable|Whether Alert can be closed|\`{a: boolean;b: string;}\`|\`false\`|-|
-|callback|Callback function|\`(option: Option) => void\`|\`-\`|-|
-|bb|bb|\`boolean\`|\`-\`|-|
-|animation|animation|\`boolean \\\\| string\`|\`-\`|-|",
+|action|this is action|ReactElement  **(Required)**|\`-\`|2.15.0|
+|closable|Whether Alert can be closed|{a: boolean;b: string;} |\`false\`|-|
+|callback|Callback function|(option: [Option](#Option)) => void |\`-\`|-|
+|bb|bb|boolean |\`-\`|-|
+|animation|animation|boolean \\\\| string |\`-\`|-|",
+  "Option": "### Option
+
+\`\`\`js
+export type Option = {
+  a: string;
+  b: string;
+};
+\`\`\`",
   "Test": "### Test
 
 |Property|Description|Type|DefaultValue|Version|
 |---|---|---|---|---|
-|position|position|\`string\`|\`-\`|-|
-|size|Size|\`string\`|\`-\`|-|
-|action|this is action|\`ReactElement\` **(Required)**|\`-\`|2.15.0|
-|closable|Whether Alert can be closed|\`{a: boolean;b: string;}\`|\`false\`|-|
-|callback|Callback function|\`(option: Option) => void\`|\`-\`|-|
-|bb|bb|\`boolean\`|\`-\`|-|
-|animation|animation|\`boolean \\\\| string\`|\`-\`|-|",
+|position|position|string |\`-\`|-|
+|size|Size|string |\`-\`|-|
+|action|this is action|ReactElement  **(Required)**|\`-\`|2.15.0|
+|closable|Whether Alert can be closed|{a: boolean;b: string;} |\`false\`|-|
+|callback|Callback function|(option: [Option](#Option)) => void |\`-\`|-|
+|bb|bb|boolean |\`-\`|-|
+|animation|animation|boolean \\\\| string |\`-\`|-|",
 }
 `;
 
@@ -810,16 +1229,16 @@ Object {
 #### Arguments
 |参数名|描述|类型|默认值|
 |---|---|---|---|
-|a|被加数|\`number\` **(必填)**|-|
-|b|加数|\`number\`|\`5\`|",
+|a|被加数|number  **(必填)**|-|
+|b|加数|number |\`5\`|",
   "Button": "### Button
 
 按钮
 
 |参数名|描述|类型|默认值|版本|
 |---|---|---|---|---|
-|size|尺寸|\`'mini' \\\\| 'large' \\\\| 'default'\`|\`default\`|-|
-|color|颜色|\`string\`|\`-\`|1.2.0|",
+|size|尺寸|'mini' \\\\| 'large' \\\\| 'default' |\`default\`|-|
+|color|颜色|string |\`-\`|1.2.0|",
   "Plus": "### Plus
 
 两数相乘
@@ -830,8 +1249,8 @@ Object {
 #### Arguments
 |参数名|描述|类型|默认值|
 |---|---|---|---|
-|a|被乘数|\`number\` **(必填)**|-|
-|b|乘数|\`number\` **(必填)**|\`1\`|",
+|a|被乘数|number  **(必填)**|-|
+|b|乘数|number  **(必填)**|\`1\`|",
 }
 `;
 
@@ -847,8 +1266,8 @@ Multiply two numbers
 #### Arguments
 |Argument|Description|Type|DefaultValue|
 |---|---|---|---|
-|a|First number|\`number\` **(Required)**|-|
-|b|Second number|\`number\` **(Required)**|\`1\`|",
+|a|First number|number  **(Required)**|-|
+|b|Second number|number  **(Required)**|\`1\`|",
   "### Add
 
 Add two numbers
@@ -862,15 +1281,241 @@ Add two numbers
 #### Arguments
 |Argument|Description|Type|DefaultValue|
 |---|---|---|---|
-|a|First number|\`number\` **(Required)**|-|
-|b|Second number|\`number\`|\`5\`|",
+|a|First number|number  **(Required)**|-|
+|b|Second number|number |\`5\`|",
   "### Button
 
 Button
 
 |Property|Description|Type|DefaultValue|Version|
 |---|---|---|---|---|
-|size|Size|\`'mini' \\\\| 'large' \\\\| 'default'\`|\`default\`|-|
-|color|Color|\`string\`|\`-\`|1.2.0|",
+|size|Size|'mini' \\\\| 'large' \\\\| 'default' |\`default\`|-|
+|color|Color|string |\`-\`|1.2.0|",
 ]
+`;
+
+exports[`generateMarkdown nested types 1`] = `
+Object {
+  "A": "### A
+
+这是接口描述。
+
+|参数名|描述|类型|默认值|
+|---|---|---|---|
+|treeSelectDataType|树选择数据属性|[TreeSelectDataType](#TreeSelectDataType) |\`-\`|
+|onClick|点击回调|(num: number) => void  **(必填)**|\`-\`|
+|b|属性 B|[BlinkProps](blink#Blink)  **(必填)**|\`-\`|
+|action|操作项|ReactNode |\`-\`|
+|owner|负责人|Partial&lt;[Owner](#Owner)&gt; |\`-\`|
+|size|尺寸|[Size](#Size) |\`-\`|
+|columns|列配置|[ColProps](#ColProps) |\`{}\`|
+|sorter|排序|(a: [SorterProps](#SorterProps), b: [SorterProps](#SorterProps)) =&gt; Promise&lt;void&gt;  **(必填)**|\`-\`|
+|direction|方向|[Direction](#Direction) |\`-\`|
+|option|选项|[OptionInfo](#OptionInfo)  **(必填)**|\`-\`|",
+  "ColProps": "### ColProps
+
+\`\`\`js
+export interface ColProps {
+  // width of the column
+  width?: number;
+  name?: string;
+  onColumnCallback: (param: onColumnCallbackProps) => number;
+}
+\`\`\`",
+  "Direction": "### Direction
+
+\`\`\`js
+enum Direction {
+  LEFT,
+  RIGHT,
+  UP,
+  DOWN,
+}
+\`\`\`",
+  "InnerMethodsReturnType": "### InnerMethodsReturnType
+
+\`\`\`js
+interface InnerMethodsReturnType {
+  text: string;
+}
+\`\`\`",
+  "OptionInfo": "### OptionInfo
+
+\`\`\`js
+export interface OptionInfo extends PropsWithChildren<BlinkProps> {
+  valid: boolean;
+  index: number;
+  origin: \\"children\\" | \\"options\\" | \\"userCreatedOptions\\" | \\"userCreatingOption\\";
+}
+\`\`\`",
+  "Owner": "### Owner
+
+\`\`\`js
+interface Owner {
+  name: string;
+  age: number;
+}
+\`\`\`",
+  "Size": "### Size
+
+\`\`\`js
+export type Size = number | string | SizeObject;
+\`\`\`",
+  "SizeObject": "### SizeObject
+
+\`\`\`js
+type SizeObject = {
+  [key in string]: number;
+};
+\`\`\`",
+  "SorterProps": "### SorterProps
+
+\`\`\`js
+interface SorterProps {
+  counter: number;
+}
+\`\`\`",
+  "TreeDataType": "### TreeDataType
+
+\`\`\`js
+export type TreeDataType = {
+  key?: string;
+  _index?: number;
+  children: TreeDataType[];
+  loadMore: (data: TreeDataType) => void;
+};
+\`\`\`",
+  "TreeSelectDataType": "### TreeSelectDataType
+
+\`\`\`js
+export type TreeSelectDataType = TreeDataType & {
+  getInnerMethods: (inner: boolean) => InnerMethodsReturnType;
+};
+\`\`\`",
+  "onColumnCallbackProps": "### onColumnCallbackProps
+
+\`\`\`js
+interface onColumnCallbackProps {
+  // index of column
+  index: string;
+  position: {
+    x: number;
+    y: number;
+  };
+}
+\`\`\`",
+}
+`;
+
+exports[`generateMarkdown nested types 2`] = `
+Object {
+  "A": "### A
+
+This is interface description.
+
+|Property|Description|Type|DefaultValue|
+|---|---|---|---|
+|treeSelectDataType|treeSelectDataType|[TreeSelectDataType](#TreeSelectDataType) |\`-\`|
+|onClick|onClick|(num: number) => void  **(Required)**|\`-\`|
+|b|BProps|[BlinkProps](blink#Blink)  **(Required)**|\`-\`|
+|action|action|ReactNode |\`-\`|
+|owner|owner|Partial&lt;[Owner](#Owner)&gt; |\`-\`|
+|size|size|[Size](#Size) |\`-\`|
+|columns|column settings|[ColProps](#ColProps) |\`{}\`|
+|sorter|sorter|(a: [SorterProps](#SorterProps), b: [SorterProps](#SorterProps)) =&gt; Promise&lt;void&gt;  **(Required)**|\`-\`|
+|direction|direction|[Direction](#Direction) |\`-\`|
+|option|option|[OptionInfo](#OptionInfo)  **(Required)**|\`-\`|",
+  "ColProps": "### ColProps
+
+\`\`\`js
+export interface ColProps {
+  // width of the column
+  width?: number;
+  name?: string;
+  onColumnCallback: (param: onColumnCallbackProps) => number;
+}
+\`\`\`",
+  "Direction": "### Direction
+
+\`\`\`js
+enum Direction {
+  LEFT,
+  RIGHT,
+  UP,
+  DOWN,
+}
+\`\`\`",
+  "InnerMethodsReturnType": "### InnerMethodsReturnType
+
+\`\`\`js
+interface InnerMethodsReturnType {
+  text: string;
+}
+\`\`\`",
+  "OptionInfo": "### OptionInfo
+
+\`\`\`js
+export interface OptionInfo extends PropsWithChildren<BlinkProps> {
+  valid: boolean;
+  index: number;
+  origin: \\"children\\" | \\"options\\" | \\"userCreatedOptions\\" | \\"userCreatingOption\\";
+}
+\`\`\`",
+  "Owner": "### Owner
+
+\`\`\`js
+interface Owner {
+  name: string;
+  age: number;
+}
+\`\`\`",
+  "Size": "### Size
+
+\`\`\`js
+export type Size = number | string | SizeObject;
+\`\`\`",
+  "SizeObject": "### SizeObject
+
+\`\`\`js
+type SizeObject = {
+  [key in string]: number;
+};
+\`\`\`",
+  "SorterProps": "### SorterProps
+
+\`\`\`js
+interface SorterProps {
+  counter: number;
+}
+\`\`\`",
+  "TreeDataType": "### TreeDataType
+
+\`\`\`js
+export type TreeDataType = {
+  key?: string;
+  _index?: number;
+  children: TreeDataType[];
+  loadMore: (data: TreeDataType) => void;
+};
+\`\`\`",
+  "TreeSelectDataType": "### TreeSelectDataType
+
+\`\`\`js
+export type TreeSelectDataType = TreeDataType & {
+  getInnerMethods: (inner: boolean) => InnerMethodsReturnType;
+};
+\`\`\`",
+  "onColumnCallbackProps": "### onColumnCallbackProps
+
+\`\`\`js
+interface onColumnCallbackProps {
+  // index of column
+  index: string;
+  position: {
+    x: number;
+    y: number;
+  };
+}
+\`\`\`",
+}
 `;

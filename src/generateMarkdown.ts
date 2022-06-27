@@ -5,6 +5,7 @@ import {
   FunctionSchema,
   GenerateMarkdownConfig,
   InterfaceSchema,
+  NestedTypeSchema,
   PropertyType,
   Schema,
 } from './interface';
@@ -64,7 +65,7 @@ function generateMarkdown(
             const value = schema[field];
             switch (field) {
               case 'type': {
-                return `\`${value}\`${requiredText}`;
+                return `${value} ${requiredText}`;
               }
               case 'initializerText': {
                 return value !== null ? `\`${value}\`` : '-';
@@ -84,33 +85,37 @@ function generateMarkdown(
 
   const getMarkdownFromSchema = (title: string, schema: Schema): string => {
     const markdownTitle = `${BASE_TITLE_PREFIX} ${title}`;
-    const dataForTable = (schema as InterfaceSchema).data || (schema as FunctionSchema).params;
-    const tagMap: Record<string, string> = {};
-    schema.tags.forEach(({ name, value }) => (tagMap[name] = value));
+    if ((schema as NestedTypeSchema).isNestedType) {
+      const markdownBody = `\`\`\`js\n${(schema as NestedTypeSchema).data}\`\`\``;
+      return `${markdownTitle}\n\n${markdownBody}`;
+    } else {
+      const dataForTable = (schema as InterfaceSchema).data || (schema as FunctionSchema).params;
+      const tagMap: Record<string, string> = {};
+      schema.tags.forEach(({ name, value }) => (tagMap[name] = value));
+      let description = tagMap[lang] || '';
+      let table =
+        dataForTable && dataForTable.length
+          ? getMarkdownTable(
+              dataForTable,
+              (schema as FunctionSchema).params ? 'parameter' : 'interface'
+            )
+          : '';
 
-    let description = tagMap[lang] || '';
-    let table =
-      dataForTable && dataForTable.length
-        ? getMarkdownTable(
-            dataForTable,
-            (schema as FunctionSchema).params ? 'parameter' : 'interface'
-          )
-        : '';
-
-    // Function type
-    const { params, returns: typeOfReturn } = schema as FunctionSchema;
-    if (params) {
-      const { version, returns } = tagMap;
-      if (version) {
-        description += `${description ? '\n\n' : ''}${BASE_TITLE_PREFIX}# Since\n${version}`;
+      // Function type
+      const { params, returns: typeOfReturn } = schema as FunctionSchema;
+      if (params) {
+        const { version, returns } = tagMap;
+        if (version) {
+          description += `${description ? '\n\n' : ''}${BASE_TITLE_PREFIX}# Since\n${version}`;
+        }
+        description += `${
+          description ? '\n\n' : ''
+        }${BASE_TITLE_PREFIX}# Returns\n\`${typeOfReturn}\`${returns ? `: ${returns}` : ''}`;
+        table = `${BASE_TITLE_PREFIX}# Arguments\n${table}`;
       }
-      description += `${
-        description ? '\n\n' : ''
-      }${BASE_TITLE_PREFIX}# Returns\n\`${typeOfReturn}\`${returns ? `: ${returns}` : ''}`;
-      table = `${BASE_TITLE_PREFIX}# Arguments\n${table}`;
-    }
 
-    return [markdownTitle, description, table].filter((str) => str).join('\n\n');
+      return [markdownTitle, description, table].filter(Boolean).join('\n\n');
+    }
   };
 
   if (config?.strictDeclarationOrder) {
