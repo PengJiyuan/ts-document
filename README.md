@@ -207,6 +207,10 @@ Custom project to use in `generate/generateMarkdown` function. See [ts-morph](ht
 
 Format function to generate link of nested types.
 
+## Who's using?
+
+[Arco Design](https://github.com/arco-design/arco-design) - A comprehensive React UI components library based on Arco Design.
+
 ## LICENSE
 
 [MIT](./LICENSE) © [PengJiyuan](https://github.com/PengJiyuan)
