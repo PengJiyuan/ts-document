@@ -600,6 +600,21 @@ Object {
         "type": "[BlinkProps](blink#Blink)",
       },
       Object {
+        "isOptional": false,
+        "name": "unionBlink",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "属性 baseB",
+          },
+          Object {
+            "name": "en",
+            "value": "baseBlink",
+          },
+        ],
+        "type": "[UnionBlinkProps](#UnionBlinkProps)",
+      },
+      Object {
         "isOptional": true,
         "name": "action",
         "tags": Array [
@@ -861,6 +876,17 @@ Object {
       Object {
         "name": "title",
         "value": "TreeSelectDataType",
+      },
+    ],
+  },
+  "UnionBlinkProps": Object {
+    "data": "type UnionBlinkProps = ClinkProps & BlinkProps;
+",
+    "isNestedType": true,
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "UnionBlinkProps",
       },
     ],
   },
@@ -1305,6 +1331,7 @@ Object {
 |treeSelectDataType|树选择数据属性|[TreeSelectDataType](#TreeSelectDataType) |\`-\`|
 |onClick|点击回调|(num: number) => void  **(必填)**|\`-\`|
 |b|属性 B|[BlinkProps](blink#Blink)  **(必填)**|\`-\`|
+|unionBlink|属性 baseB|[UnionBlinkProps](#UnionBlinkProps)  **(必填)**|\`-\`|
 |action|操作项|ReactNode |\`-\`|
 |owner|负责人|Partial&lt;[Owner](#Owner)&gt; |\`-\`|
 |size|尺寸|[Size](#Size) |\`-\`|
@@ -1392,6 +1419,11 @@ export type TreeSelectDataType = TreeDataType & {
   getInnerMethods: (inner: boolean) => InnerMethodsReturnType;
 };
 \`\`\`",
+  "UnionBlinkProps": "### UnionBlinkProps
+
+\`\`\`js
+type UnionBlinkProps = ClinkProps & BlinkProps;
+\`\`\`",
   "onColumnCallbackProps": "### onColumnCallbackProps
 
 \`\`\`js
@@ -1418,6 +1450,7 @@ This is interface description.
 |treeSelectDataType|treeSelectDataType|[TreeSelectDataType](#TreeSelectDataType) |\`-\`|
 |onClick|onClick|(num: number) => void  **(Required)**|\`-\`|
 |b|BProps|[BlinkProps](blink#Blink)  **(Required)**|\`-\`|
+|unionBlink|baseBlink|[UnionBlinkProps](#UnionBlinkProps)  **(Required)**|\`-\`|
 |action|action|ReactNode |\`-\`|
 |owner|owner|Partial&lt;[Owner](#Owner)&gt; |\`-\`|
 |size|size|[Size](#Size) |\`-\`|
@@ -1504,6 +1537,11 @@ export type TreeDataType = {
 export type TreeSelectDataType = TreeDataType & {
   getInnerMethods: (inner: boolean) => InnerMethodsReturnType;
 };
+\`\`\`",
+  "UnionBlinkProps": "### UnionBlinkProps
+
+\`\`\`js
+type UnionBlinkProps = ClinkProps & BlinkProps;
 \`\`\`",
   "onColumnCallbackProps": "### onColumnCallbackProps
 

@@ -1,5 +1,5 @@
 import { ReactNode, PropsWithChildren } from 'react';
-import { BlinkProps, ShouldBeIgnoredProps } from './components/Blink/interface';
+import { BlinkProps, ClinkProps, ShouldBeIgnoredProps } from './components/Blink/interface';
 
 export interface OptionInfo extends PropsWithChildren<BlinkProps> {
   valid: boolean;
@@ -30,6 +30,11 @@ export interface AProps {
    * @en BProps
    */
   b: BlinkProps;
+  /**
+   * @zh 属性 baseB
+   * @en baseBlink
+   */
+  unionBlink: UnionBlinkProps;
   /**
    * @zh 操作项
    * @en action
@@ -115,3 +120,5 @@ export type TreeDataType = {
 interface InnerMethodsReturnType {
   text: string;
 }
+
+type UnionBlinkProps = ClinkProps & BlinkProps;
