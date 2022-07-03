@@ -27,6 +27,8 @@ import { defaultTypeMap, defaultLinkFormatter } from './default';
 import { toSingleLine, escape } from './util';
 import { format } from 'prettier';
 
+const dummyProject = new Project({ useInMemoryFileSystem: true });
+
 type DeclarationCanBeParsed = InterfaceDeclaration | TypeAliasDeclaration | FunctionDeclaration;
 
 type ExtractType = {
@@ -114,6 +116,20 @@ function getSymbolByType(type: Type) {
   return type.getAliasSymbol() || type.getSymbol();
 }
 
+function hasJSDocTitle(
+  declaration: Node<ts.Node> | DeclarationCanBeParsed,
+  parsedNestedTypeSet: Set<Type>
+) {
+  const { title } =
+    (declaration && 'getJsDocs' in declaration && getDeclarationTags(declaration)) || {};
+  if (title) {
+    // Type with @title in JSDoc is used to format link but not dumped as nested types onto page
+    parsedNestedTypeSet.add(declaration.getType());
+    return true;
+  }
+  return false;
+}
+
 // Check whether the type is our target that we want to continue parsing
 function isTarget(type: Type, parsedNestedTypeSet: Set<Type>) {
   // Has parsed before
@@ -121,18 +137,15 @@ function isTarget(type: Type, parsedNestedTypeSet: Set<Type>) {
     return false;
   }
   const declaration: any = getDeclarationBySymbol(getSymbolByType(type));
+  if (hasJSDocTitle(declaration, parsedNestedTypeSet)) {
+    return false;
+  }
   const defPath = declaration?.getSourceFile()?.getFilePath();
-  const { title } = (declaration?.getJsDocs && getDeclarationTags(declaration)) || {};
   if (
     // Types from node_modules
-    (defPath && defPath.includes('/node_modules/')) ||
-    // Types that will be parsed with JSDocs => skip them
-    title
+    defPath &&
+    defPath.includes('/node_modules/')
   ) {
-    // Type with @title in JSDoc is used to format link but not dumped as nested types onto page
-    if (title) {
-      parsedNestedTypeSet.add(type);
-    }
     return false;
   }
 
@@ -172,6 +185,9 @@ function dumpNestedTypes(
   parsedNestedTypes: Set<Type>
 ) {
   if (declaration == null) {
+    return;
+  }
+  if (hasJSDocTitle(declaration, parsedNestedTypes)) {
     return;
   }
   declaration.forEachDescendant((descendant) => {
@@ -230,33 +246,43 @@ function getDisplayTypeWithLink(
   parsedNestedTypeSet: Set<Type>,
   linkFormatter: LinkFormatter
 ) {
-  let displayType = originTypeText;
-  for (const parsedNestedType of parsedNestedTypeSet) {
-    const typeName = getSymbolByType(parsedNestedType)?.getName();
-    if (!typeName) {
-      continue;
-    }
-    const matchedNestedType = nestedTypeList.find((item) => item.title === typeName);
-    let link;
-    if (matchedNestedType) {
-      // Type that is available on the current page and doesn't have JSDoc @title
-      link = linkFormatter({ typeName });
-    } else {
-      const declaration: any = getDeclarationBySymbol(getSymbolByType(parsedNestedType));
-      const definitionPath = declaration?.getSourceFile()?.getFilePath();
-      const { title } = (declaration?.getJsDocs && getDeclarationTags(declaration)) || {};
-      // Has @title in JSDoc
-      if (title) {
-        link = linkFormatter({ typeName, jsDocTitle: title, fullPath: definitionPath });
+  const sourceFile = dummyProject.createSourceFile('./dummy.ts', originTypeText, {
+    overwrite: true,
+  });
+  sourceFile.transform((traversal) => {
+    const node = traversal.visitChildren();
+
+    if (ts.isIdentifier(node)) {
+      const nodeTypeText = node.text;
+      // Check identifiers in the type against parsed custom type definitions and replace with link info if necessary
+      for (const parsedNestedType of parsedNestedTypeSet) {
+        const typeName = getSymbolByType(parsedNestedType)?.getName();
+        if (!typeName || typeName !== nodeTypeText) {
+          continue;
+        }
+        const matchedNestedType = nestedTypeList.find((item) => item.title === typeName);
+        let link;
+        if (matchedNestedType) {
+          // Type that is available on the current page and doesn't have JSDoc @title
+          link = linkFormatter({ typeName });
+        } else {
+          const declaration: any = getDeclarationBySymbol(getSymbolByType(parsedNestedType));
+          const definitionPath = declaration?.getSourceFile()?.getFilePath();
+          const { title } = (declaration?.getJsDocs && getDeclarationTags(declaration)) || {};
+          // Has @title in JSDoc
+          if (title) {
+            link = linkFormatter({ typeName, jsDocTitle: title, fullPath: definitionPath });
+          }
+        }
+        // Only convert to link when link is available
+        if (link) {
+          return ts.factory.createIdentifier(`[${typeName}](${link})`);
+        }
       }
     }
-    // Only convert to link when link is available
-    if (link) {
-      const regExp = new RegExp(typeName, 'g');
-      displayType = displayType.replace(regExp, `[${typeName}](${link})`);
-    }
-  }
-  return displayType;
+    return node;
+  });
+  return sourceFile.getText();
 }
 
 // Get Json schema of interface's property
