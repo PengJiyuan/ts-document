@@ -335,15 +335,33 @@ function getPropertySchema(
 // Get Json schema of Function
 function getFunctionSchema(
   declaration: FunctionDeclaration,
-  strictComment = false
+  strictComment = false,
+  nestedTypeList: SchemaList,
+  parsedNestedTypeSet: Set<Type>,
+  linkFormatter: LinkFormatter
 ): Pick<FunctionSchema, 'params' | 'returns'> {
   return {
     params: declaration.getParameters().map((para) => {
       const tags = getSymbolTags(para.getSymbol() as Symbol, strictComment);
+
+      let typeWithLink = para
+        .getType()
+        .getText()
+        .replace(/import\([^)]+\)\./g, '');
+
+      // Deeply analyze nested types
+      dumpNestedTypes(para, nestedTypeList, parsedNestedTypeSet);
+      typeWithLink = getDisplayTypeWithLink(
+        typeWithLink,
+        nestedTypeList,
+        parsedNestedTypeSet,
+        linkFormatter
+      );
+
       return {
         tags,
         name: para.getName(),
-        type: para.getType().getText(),
+        type: typeWithLink,
         isOptional: para.isOptional(),
         initializerText:
           para.getInitializer()?.getText() ||
@@ -399,7 +417,13 @@ function generateSchema(sourceFile: SourceFile, typeChecker: TypeChecker, config
       ) {
         schema = {
           tags,
-          ...getFunctionSchema(typeNode as FunctionDeclaration),
+          ...getFunctionSchema(
+            typeNode as FunctionDeclaration,
+            strictComment,
+            nestedTypeList,
+            parsedNestedTypeSet,
+            linkFormatter
+          ),
         };
       }
       // Interface declaration forbid extends
