@@ -57,7 +57,7 @@ function extractFromPropertyText(text: string): ExtractType | undefined {
   }
   const name = regexResult[1];
   const isOptional = regexResult[2] === '?';
-  const type = toSingleLine(escape(regexResult[3]));
+  const type = regexResult[3];
 
   return {
     name,
@@ -246,9 +246,13 @@ function getDisplayTypeWithLink(
   parsedNestedTypeSet: Set<Type>,
   linkFormatter: LinkFormatter
 ) {
-  const sourceFile = dummyProject.createSourceFile('./dummy.ts', originTypeText, {
-    overwrite: true,
-  });
+  const sourceFile = dummyProject.createSourceFile(
+    './dummy.ts',
+    toSingleLine(escape(originTypeText)),
+    {
+      overwrite: true,
+    }
+  );
   sourceFile.transform((traversal) => {
     const node = traversal.visitChildren();
 
@@ -305,11 +309,11 @@ function getPropertySchema(
 
   const tags = getSymbolTags(sym, strictComment);
   if (tags.find(({ name }) => name && TAG_NAMES_FOR_DESCRIPTION.indexOf(name) > -1)) {
-    let typeWithLink = extract.type;
     // Deeply analyze nested types
     dumpNestedTypes(declaration, nestedTypeList, parsedNestedTypeSet);
-    typeWithLink = getDisplayTypeWithLink(
-      typeWithLink,
+
+    const typeWithLink = getDisplayTypeWithLink(
+      extract.type,
       nestedTypeList,
       parsedNestedTypeSet,
       linkFormatter
@@ -342,17 +346,15 @@ function getFunctionSchema(
 ): Pick<FunctionSchema, 'params' | 'returns'> {
   return {
     params: declaration.getParameters().map((para) => {
-      const tags = getSymbolTags(para.getSymbol() as Symbol, strictComment);
-
-      let typeWithLink = para
-        .getType()
-        .getText()
-        .replace(/import\([^)]+\)\./g, '');
-
       // Deeply analyze nested types
       dumpNestedTypes(para, nestedTypeList, parsedNestedTypeSet);
-      typeWithLink = getDisplayTypeWithLink(
-        typeWithLink,
+
+      const tags = getSymbolTags(para.getSymbol() as Symbol, strictComment);
+      const typeWithLink = getDisplayTypeWithLink(
+        para
+          .getType()
+          .getText()
+          .replace(/import\([^)]+\)\./g, ''),
         nestedTypeList,
         parsedNestedTypeSet,
         linkFormatter

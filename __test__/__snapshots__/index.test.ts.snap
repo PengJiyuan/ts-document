@@ -432,59 +432,17 @@ Object {
       },
     ],
   },
-  "Button": Object {
-    "data": Array [
-      Object {
-        "isOptional": true,
-        "name": "size",
-        "tags": Array [
-          Object {
-            "name": "zh",
-            "value": "尺寸",
-          },
-          Object {
-            "name": "en",
-            "value": "Size",
-          },
-          Object {
-            "name": "defaultValue",
-            "value": "default",
-          },
-        ],
-        "type": "'mini' \\\\| 'large' \\\\| 'default'",
-      },
-      Object {
-        "isOptional": true,
-        "name": "color",
-        "tags": Array [
-          Object {
-            "name": "zh",
-            "value": "颜色",
-          },
-          Object {
-            "name": "en",
-            "value": "Color",
-          },
-          Object {
-            "name": "version",
-            "value": "1.2.0",
-          },
-        ],
-        "type": "string",
-      },
-    ],
+  "ButtonType": Object {
+    "data": "type ButtonType = {
+  size?: \\"mini\\" | \\"large\\" | \\"default\\";
+  color?: string;
+};
+",
+    "isNestedType": true,
     "tags": Array [
       Object {
         "name": "title",
-        "value": "Button",
-      },
-      Object {
-        "name": "zh",
-        "value": "按钮",
-      },
-      Object {
-        "name": "en",
-        "value": "Button",
+        "value": "ButtonType",
       },
     ],
   },
@@ -544,6 +502,24 @@ Object {
       Object {
         "name": "returns",
         "value": "Product of two numbers",
+      },
+    ],
+  },
+  "function with nest type": Object {
+    "params": Array [
+      Object {
+        "initializerText": null,
+        "isOptional": false,
+        "name": "buttonProps",
+        "tags": Array [],
+        "type": "Partial&lt;[ButtonType](#ButtonType)&gt;",
+      },
+    ],
+    "returns": "any",
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "function with nest type",
       },
     ],
   },
@@ -1107,14 +1083,14 @@ Object {
 |---|---|---|---|
 |a|被加数|number  **(必填)**|-|
 |b|加数|number |\`5\`|",
-  "Button": "### Button
+  "ButtonType": "### ButtonType
 
-按钮
-
-|参数名|描述|类型|默认值|版本|
-|---|---|---|---|---|
-|size|尺寸|'mini' \\\\| 'large' \\\\| 'default' |\`default\`|-|
-|color|颜色|string |\`-\`|1.2.0|",
+\`\`\`js
+type ButtonType = {
+  size?: \\"mini\\" | \\"large\\" | \\"default\\";
+  color?: string;
+};
+\`\`\`",
   "Plus": "### Plus
 
 两数相乘
@@ -1127,6 +1103,15 @@ Object {
 |---|---|---|---|
 |a|被乘数|number  **(必填)**|-|
 |b|乘数|number  **(必填)**|\`1\`|",
+  "function with nest type": "### function with nest type
+
+#### Returns
+\`any\`
+
+#### Arguments
+|参数名|描述|类型|默认值|
+|---|---|---|---|
+|buttonProps|-|Partial&lt;[ButtonType](#ButtonType)&gt;  **(必填)**|-|",
 }
 `;
 
@@ -1159,14 +1144,23 @@ Add two numbers
 |---|---|---|---|
 |a|First number|number  **(Required)**|-|
 |b|Second number|number |\`5\`|",
-  "### Button
+  "### function with nest type
 
-Button
+#### Returns
+\`any\`
 
-|Property|Description|Type|DefaultValue|Version|
-|---|---|---|---|---|
-|size|Size|'mini' \\\\| 'large' \\\\| 'default' |\`default\`|-|
-|color|Color|string |\`-\`|1.2.0|",
+#### Arguments
+|Argument|Description|Type|DefaultValue|
+|---|---|---|---|
+|buttonProps|-|Partial&lt;[ButtonType](#ButtonType)&gt;  **(Required)**|-|",
+  "### ButtonType
+
+\`\`\`js
+type ButtonType = {
+  size?: \\"mini\\" | \\"large\\" | \\"default\\";
+  color?: string;
+};
+\`\`\`",
 ]
 `;
 
@@ -1257,14 +1251,14 @@ Object {
 |---|---|---|---|
 |a|被加数|number  **(必填)**|-|
 |b|加数|number |\`5\`|",
-  "Button": "### Button
+  "ButtonType": "### ButtonType
 
-按钮
-
-|参数名|描述|类型|默认值|版本|
-|---|---|---|---|---|
-|size|尺寸|'mini' \\\\| 'large' \\\\| 'default' |\`default\`|-|
-|color|颜色|string |\`-\`|1.2.0|",
+\`\`\`js
+type ButtonType = {
+  size?: \\"mini\\" | \\"large\\" | \\"default\\";
+  color?: string;
+};
+\`\`\`",
   "Plus": "### Plus
 
 两数相乘
@@ -1277,6 +1271,15 @@ Object {
 |---|---|---|---|
 |a|被乘数|number  **(必填)**|-|
 |b|乘数|number  **(必填)**|\`1\`|",
+  "function with nest type": "### function with nest type
+
+#### Returns
+\`any\`
+
+#### Arguments
+|参数名|描述|类型|默认值|
+|---|---|---|---|
+|buttonProps|-|Partial&lt;[ButtonType](#ButtonType)&gt;  **(必填)**|-|",
 }
 `;
 
@@ -1309,14 +1312,23 @@ Add two numbers
 |---|---|---|---|
 |a|First number|number  **(Required)**|-|
 |b|Second number|number |\`5\`|",
-  "### Button
+  "### function with nest type
 
-Button
+#### Returns
+\`any\`
 
-|Property|Description|Type|DefaultValue|Version|
-|---|---|---|---|---|
-|size|Size|'mini' \\\\| 'large' \\\\| 'default' |\`default\`|-|
-|color|Color|string |\`-\`|1.2.0|",
+#### Arguments
+|Argument|Description|Type|DefaultValue|
+|---|---|---|---|
+|buttonProps|-|Partial&lt;[ButtonType](#ButtonType)&gt;  **(Required)**|-|",
+  "### ButtonType
+
+\`\`\`js
+type ButtonType = {
+  size?: \\"mini\\" | \\"large\\" | \\"default\\";
+  color?: string;
+};
+\`\`\`",
 ]
 `;
 
