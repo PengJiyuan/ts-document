@@ -40,22 +40,14 @@ function Add(
   return a + b;
 }
 
-/**
- * @title Button
- * @zh 按钮
- * @en Button
- */
 type ButtonType = {
-  /**
-   * @zh 尺寸
-   * @en Size
-   * @defaultValue default
-   */
   size?: 'mini' | 'large' | 'default';
-  /**
-   * @zh 颜色
-   * @en Color
-   * @version 1.2.0
-   */
   color?: string;
 };
+
+/**
+ * @title function with nest type
+ */
+function withNestType(buttonProps: Partial<ButtonType>) {
+  return null;
+}
