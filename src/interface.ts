@@ -76,6 +76,11 @@ export type GenerateConfig = {
    * Format function to generate link of the nested type
    */
   linkFormatter?: LinkFormatter;
+  /**
+   * When parsing nested types, whether to ignore these nested types if they are defined in some files
+   * When returning true, nested types must not be exported, but when false is returned, nested types may not be exported due to other reasons (such as the nested type has jsdoc @title, which needs to be manually exported)
+   */
+  ignoreNestedType?: (definitionFilePath: string) => boolean;
 };
 
 export type GenerateMarkdownConfig = GenerateConfig & {

@@ -49,6 +49,12 @@ const internalProject = new Project({
 
 const propertyRegex = /(\w+)\s{0,}([?]?)\s{0,}:(.*?);?$/s;
 
+let config: GenerateConfig;
+
+function setConfig(cfg: typeof config) {
+  config = cfg;
+}
+
 // extract pure type
 function extractFromPropertyText(text: string): ExtractType | undefined {
   const regexResult = propertyRegex.exec(text);
@@ -143,8 +149,7 @@ function isTarget(type: Type, parsedNestedTypeSet: Set<Type>) {
   const defPath = declaration?.getSourceFile()?.getFilePath();
   if (
     // Types from node_modules
-    defPath &&
-    defPath.includes('/node_modules/')
+    defPath && config.ignoreNestedType!(defPath)
   ) {
     return false;
   }
@@ -490,6 +495,16 @@ function generate(
   file: string,
   config?: GenerateConfig
 ): Record<string, Schema> | Array<{ title: string; schema: Schema }> | undefined {
+  config = {
+    sourceFilesPaths: [],
+    ignoreNestedType(definitionFilePath: string) {
+      return definitionFilePath.includes('/node_modules/')
+    },
+    ...config
+  }
+
+  setConfig(config);
+
   const project = config?.project || internalProject;
 
   if (config?.sourceFilesPaths) {
