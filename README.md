@@ -207,6 +207,12 @@ Custom project to use in `generate/generateMarkdown` function. See [ts-morph](ht
 
 Format function to generate link of nested types.
 
+### ignoreNestedType
+
+When parsing nested types, whether to ignore these nested types if they are defined in some files.
+When returning true, nested types must not be exported, but when false is returned,
+nested types may not be exported due to other reasons (such as the nested type has jsdoc @title, which needs to be manually exported)
+
 ## Who's using?
 
 [Arco Design](https://github.com/arco-design/arco-design) - A comprehensive React UI components library based on Arco Design.
