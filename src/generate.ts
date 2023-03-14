@@ -24,8 +24,7 @@ import {
   LinkFormatter,
 } from './interface';
 import { defaultTypeMap, defaultLinkFormatter } from './default';
-import { toSingleLine, escape } from './util';
-import { format } from 'prettier';
+import { toSingleLine } from './util';
 
 const dummyProject = new Project({ useInMemoryFileSystem: true });
 
@@ -174,7 +173,8 @@ function getDeclarationBySymbol(symbol?: Symbol) {
 
 function getDeclarationTextBySymbol(symbol?: Symbol) {
   const declaration = getDeclarationBySymbol(symbol);
-  return format(declaration?.print() || '', { parser: 'typescript' });
+  // Four spaces -> two spaces and add a new line at the end
+  return `${(declaration?.print() || '').replace(/ {4}/g, ' '.repeat(2))}\n`;
 }
 
 /**
@@ -253,7 +253,7 @@ function getDisplayTypeWithLink(
 ) {
   const sourceFile = dummyProject.createSourceFile(
     './dummy.ts',
-    toSingleLine(escape(originTypeText)),
+    toSingleLine(originTypeText, config.escapeChars),
     {
       overwrite: true,
     }
@@ -500,6 +500,7 @@ function generate(
     ignoreNestedType(definitionFilePath: string) {
       return definitionFilePath.includes('/node_modules/')
     },
+    escapeChars: true,
     ...config
   }
 

@@ -1,12 +1,16 @@
-export function toSingleLine(str = ''): string {
+export function toSingleLine(str = '', escapeChars = true): string {
   if (!str) {
     return '';
   }
-  return str
-    .trim()
+  let newStr = str.trim()
     .replace(/[\r\n\t]+/g, '')
     .replace(/[\x20]{2,}/g, '')
-    .replace(/\|/g, '\\|');
+  if (escapeChars) {
+    newStr = escape(
+      newStr.replace(/\|/g, '\\|')
+    );
+  }
+  return newStr;
 }
 
 /**

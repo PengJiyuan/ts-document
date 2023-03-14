@@ -8,6 +8,7 @@ const pathDefaultMap = path.resolve(pathFixtures, 'defaultTypeMap.ts');
 const pathFunction = path.resolve(pathFixtures, 'function.ts');
 const pathPropertySorter = path.resolve(pathFixtures, 'propertySorter.ts');
 const pathNest = path.resolve(pathFixtures, 'nest/interface.ts');
+const pathEscape = path.resolve(pathFixtures, 'escape.ts');
 
 const nestLinkFormatter = (options) => {
   const { typeName, jsDocTitle, fullPath } = options;
@@ -79,6 +80,14 @@ describe('generate', () => {
     const schema = generate(pathNest, {
       sourceFilesPaths: './**/*.ts',
       linkFormatter: nestLinkFormatter,
+    });
+    expect(schema).toMatchSnapshot();
+  });
+
+  it('escape', () => {
+    const schema = generate(pathEscape, {
+      sourceFilesPaths: './**/*.ts',
+      escapeChars: false
     });
     expect(schema).toMatchSnapshot();
   });
@@ -156,6 +165,22 @@ describe('generateMarkdown', () => {
       sourceFilesPaths: './**/*.ts',
       lang: 'en',
       linkFormatter: nestLinkFormatter,
+    });
+    expect(markdownZh).toMatchSnapshot();
+    expect(markdownEn).toMatchSnapshot();
+  });
+
+  it('escape', () => {
+    const markdownZh = generateMarkdown(pathEscape, {
+      sourceFilesPaths: './**/*.ts',
+      lang: 'zh',
+      escapeChars: false
+      
+    });
+    const markdownEn = generateMarkdown(pathEscape, {
+      sourceFilesPaths: './**/*.ts',
+      lang: 'en',
+      escapeChars: false
     });
     expect(markdownZh).toMatchSnapshot();
     expect(markdownEn).toMatchSnapshot();
