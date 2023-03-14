@@ -81,6 +81,11 @@ export type GenerateConfig = {
    * When returning true, nested types must not be exported, but when false is returned, nested types may not be exported due to other reasons (such as the nested type has jsdoc @title, which needs to be manually exported)
    */
   ignoreNestedType?: (definitionFilePath: string) => boolean;
+  /*
+   * Whether to escape characters for extracted type text. 
+   * E.g. `|` will be escaped to `\|`, `<Promise>` will be escaped to `&lt;Promise&gt;`.
+   */
+   escapeChars?: boolean;
 };
 
 export type GenerateMarkdownConfig = GenerateConfig & {

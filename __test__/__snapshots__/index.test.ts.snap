@@ -128,6 +128,59 @@ Object {
 }
 `;
 
+exports[`generate escape 1`] = `
+Object {
+  "A": Object {
+    "data": Array [
+      Object {
+        "isOptional": true,
+        "name": "size",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "尺寸",
+          },
+          Object {
+            "name": "en",
+            "value": "size",
+          },
+        ],
+        "type": "'mini' | 'large' | 'default'",
+      },
+      Object {
+        "isOptional": true,
+        "name": "fetchData",
+        "tags": Array [
+          Object {
+            "name": "zh",
+            "value": "获取数据函数",
+          },
+          Object {
+            "name": "en",
+            "value": "Function to fetch data",
+          },
+        ],
+        "type": "() => Promise<string>",
+      },
+    ],
+    "tags": Array [
+      Object {
+        "name": "title",
+        "value": "A",
+      },
+      Object {
+        "name": "zh",
+        "value": "这是接口描述。",
+      },
+      Object {
+        "name": "en",
+        "value": "This is interface description.",
+      },
+    ],
+  },
+}
+`;
+
 exports[`generate extends 1`] = `
 Object {
   "Alert": Object {
@@ -434,7 +487,7 @@ Object {
   },
   "ButtonType": Object {
     "data": "type ButtonType = {
-  size?: \\"mini\\" | \\"large\\" | \\"default\\";
+  size?: 'mini' | 'large' | 'default';
   color?: string;
 };
 ",
@@ -736,7 +789,7 @@ Object {
   LEFT,
   RIGHT,
   UP,
-  DOWN,
+  DOWN
 }
 ",
     "isNestedType": true,
@@ -764,7 +817,7 @@ Object {
     "data": "export interface OptionInfo extends PropsWithChildren<BlinkProps> {
   valid: boolean;
   index: number;
-  origin: \\"children\\" | \\"options\\" | \\"userCreatedOptions\\" | \\"userCreatingOption\\";
+  origin: 'children' | 'options' | 'userCreatedOptions' | 'userCreatingOption';
 }
 ",
     "isNestedType": true,
@@ -1087,7 +1140,7 @@ Object {
 
 \`\`\`js
 type ButtonType = {
-  size?: \\"mini\\" | \\"large\\" | \\"default\\";
+  size?: 'mini' | 'large' | 'default';
   color?: string;
 };
 \`\`\`",
@@ -1157,11 +1210,37 @@ Add two numbers
 
 \`\`\`js
 type ButtonType = {
-  size?: \\"mini\\" | \\"large\\" | \\"default\\";
+  size?: 'mini' | 'large' | 'default';
   color?: string;
 };
 \`\`\`",
 ]
+`;
+
+exports[`generateMarkdown escape 1`] = `
+Object {
+  "A": "### A
+
+这是接口描述。
+
+|参数名|描述|类型|默认值|
+|---|---|---|---|
+|size|尺寸|'mini' | 'large' | 'default' |\`-\`|
+|fetchData|获取数据函数|() => Promise<string> |\`-\`|",
+}
+`;
+
+exports[`generateMarkdown escape 2`] = `
+Object {
+  "A": "### A
+
+This is interface description.
+
+|Property|Description|Type|DefaultValue|
+|---|---|---|---|
+|size|size|'mini' | 'large' | 'default' |\`-\`|
+|fetchData|Function to fetch data|() => Promise<string> |\`-\`|",
+}
 `;
 
 exports[`generateMarkdown extends 1`] = `
@@ -1255,7 +1334,7 @@ Object {
 
 \`\`\`js
 type ButtonType = {
-  size?: \\"mini\\" | \\"large\\" | \\"default\\";
+  size?: 'mini' | 'large' | 'default';
   color?: string;
 };
 \`\`\`",
@@ -1325,7 +1404,7 @@ Add two numbers
 
 \`\`\`js
 type ButtonType = {
-  size?: \\"mini\\" | \\"large\\" | \\"default\\";
+  size?: 'mini' | 'large' | 'default';
   color?: string;
 };
 \`\`\`",
@@ -1368,7 +1447,7 @@ enum Direction {
   LEFT,
   RIGHT,
   UP,
-  DOWN,
+  DOWN
 }
 \`\`\`",
   "InnerMethodsReturnType": "### InnerMethodsReturnType
@@ -1384,7 +1463,7 @@ interface InnerMethodsReturnType {
 export interface OptionInfo extends PropsWithChildren<BlinkProps> {
   valid: boolean;
   index: number;
-  origin: \\"children\\" | \\"options\\" | \\"userCreatedOptions\\" | \\"userCreatingOption\\";
+  origin: 'children' | 'options' | 'userCreatedOptions' | 'userCreatingOption';
 }
 \`\`\`",
   "Owner": "### Owner
@@ -1487,7 +1566,7 @@ enum Direction {
   LEFT,
   RIGHT,
   UP,
-  DOWN,
+  DOWN
 }
 \`\`\`",
   "InnerMethodsReturnType": "### InnerMethodsReturnType
@@ -1503,7 +1582,7 @@ interface InnerMethodsReturnType {
 export interface OptionInfo extends PropsWithChildren<BlinkProps> {
   valid: boolean;
   index: number;
-  origin: \\"children\\" | \\"options\\" | \\"userCreatedOptions\\" | \\"userCreatingOption\\";
+  origin: 'children' | 'options' | 'userCreatedOptions' | 'userCreatingOption';
 }
 \`\`\`",
   "Owner": "### Owner
